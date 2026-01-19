@@ -414,7 +414,7 @@ function InteractiveShipsTest() {
                         vesselDdetail.map((vesseld, index) => (
                             vesseld.key ? (
                                 <li key={index} onClick={() => markerRefs.current[index].openPopup()} className={activeIndex === index ? 'active' : ''}>
-                                    <img src={vesseld.key} alt="{vesseld.vessel_name}" />
+                                    <img src={vesseld.key} alt={vesseld.vessel_name} />
                                     <div className="imageoverlay">
                                         <div className="vesselstitleanddate">
                                             <h3>{vesseld.vessel_name}</h3>
