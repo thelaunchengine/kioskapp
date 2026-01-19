@@ -1,0 +1,49 @@
+.whalemainwrappopup h3{
+    text-align: center;
+    width: 100%;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.whalemainwrappopup > h5{
+    text-align: center;
+    width: 100%;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+.whalemainwrappopup > img {
+    text-align: center;
+    max-width: 100px;
+    margin-left: 43%;
+    align-items: center;
+    
+}
+
+.whalemainwrappopup .whalevesselsdetailwithimg {
+    display: flex;
+}
+
+.whalemainwrappopup {
+     display: block;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.whalevesselsdetailwithimg .whaleleft img {
+    margin-right: 0;
+    width: 100%;
+}
+.detailformat p {
+    margin: 2px;
+}
+.detailformat{
+    margin: 0 0 15px;
+}
+.whaleleft {
+    align-items: center;
+    display: flex;
+    flex: 0 0 100%;
+    max-width: 50%;
+}
+.whaleright {
+    padding-left: 25px;
+}

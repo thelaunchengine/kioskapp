@@ -1,0 +1,81 @@
+/* Add styles for your slideshow */
+@font-face {
+  font-family: 'Century Gothic'; /* Name to reference your font */
+  src: url('../../public/fonts/Century Gothic.ttf') format('truetype'); /* Path to your font file */
+  /* Additional font formats for cross-browser compatibility */
+  /* src: url('/fonts/YourFontFile.woff') format('woff'),
+          url('/fonts/YourFontFile.woff2') format('woff2'); */
+}
+/* Full-screen slideshow container */
+.slideshow-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 99999999;
+  background-color: #255269;
+}
+
+/* Individual slide */
+.slideshow-container .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+
+/* Text on the slide */
+.slideshow-container .text {
+  position: relative;
+  color: white;
+  font-family: 'Century Gothic';
+  font-size: 52px;
+  text-align: left !important;
+  padding: 30px 50px;
+  max-width: 960px;
+  width: 100%;
+  margin-bottom: 0;
+
+}
+
+/* Align text right */
+.slideshow-container .text:last-child {
+  text-align: right;
+}
+
+.slideshow-container .slide1 { display: flex; align-items: flex-start; justify-content: flex-start; }
+.slideshow-container .slide1 .caption { max-width: 250px; position: absolute; bottom: 50px; right: 50px; font-family: 'Century Gothic'; color: white; padding: 0; border-radius: 0; font-size: 16px; }
+
+.slideshow-container .slide2 { display: flex; align-items: flex-end; justify-content: flex-start; }
+.slideshow-container .slide2 .caption { max-width: 380px; position: absolute; bottom: 50px; left: 50px; font-family: 'Century Gothic'; color: white; padding: 0; border-radius: 0; font-size: 16px; }
+.slideshow-container .slide2 .text:last-child { font-size: 42px; }
+
+.slideshow-container .slide3 { display: flex; align-items: flex-start; justify-content: flex-start; }
+.slideshow-container .slide3 .caption { max-width: 400px; position: absolute; bottom: 50px; right: 50px; font-family: 'Century Gothic'; color: white; padding: 0; border-radius: 0; font-size: 16px; }
+.slideshow-container .slide3 div:nth-child(3) { font-size: 42px; }
+.slideshow-container .slide3 .text { max-width: 850px; }
+.slideshow-container .slide3 .text:last-child { font-size: 32px; }
+
+@media (max-width: 1400px) {
+    .slideshow-container .text { font-size: 42px; }
+
+    .slideshow-container .slide1 .text { max-width: 750px; }
+
+    .slideshow-container .slide2 .text { max-width: 640px; font-size: 42px; }
+    .slideshow-container .slide2 .text:last-child { font-size: 34px; line-height: 1.5em; }
+
+    .slideshow-container .slide3 .text { max-width: 700px; font-size: 42px; }
+    .slideshow-container .slide3 div:nth-child(3) { font-size: 34px; line-height: 1.5em; }
+    .slideshow-container .slide3 .text:last-child { font-size: 24px; }
+}

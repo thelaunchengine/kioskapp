@@ -1,0 +1,271 @@
+/* Add styles for your slideshow */
+@font-face {
+  font-family: 'Century Gothic'; /* Name to reference your font */
+  src: url('../../public/fonts/Century Gothic.ttf') format('truetype'); /* Path to your font file */
+  /* Additional font formats for cross-browser compatibility */
+  /* src: url('/fonts/YourFontFile.woff') format('woff'),
+          url('/fonts/YourFontFile.woff2') format('woff2'); */
+}
+body {
+    font-family: 'Century Gothic';
+}
+.marker {
+  /*background-image: url('./mapbox-icon.png');*/
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.mainWrapper {
+    width: 100%;
+    display: flex;
+}
+.vesselDetails {
+    width: 25%;
+    height: 100vh;
+    overflow-y: auto;
+}
+.radar-map {
+    width: 100%;  
+    border: none;
+}
+.whaleDetails {
+    width: 25%;
+    height: 100vh;
+    overflow-y: auto;
+}
+.vesselDetails ul {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.vesselDetails ul li {
+    list-style: none;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+}
+.vesselDetails ul li img {
+    width: 100%;
+}
+.vesselDetails .imageoverlay span {
+    display: block;
+    text-align: left;
+    margin-left: 0;
+    width: 100%;
+    margin-bottom: 0 !important;
+    font-size: 14px;
+}
+.vesselDetails .imageoverlay {
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(0,0,0,.2);
+    color: #FFF;
+    padding: 5px 10px;
+    font-weight: 500;
+    margin: 0 auto;
+    z-index: 2;
+}
+
+.whaleDetails ul {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.whaleDetails ul li {
+    list-style: none;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+}
+.whaleDetails ul li img {
+    width: 100%;
+}
+.whaleDetails .imageoverlay span {
+    display: block;
+    text-align: left;
+    margin-left: 1%;
+    width: 100%;
+    margin-bottom: 0 !important;
+    font-size: 14px;
+}
+.whaleDetails .imageoverlay {
+    position: absolute;
+    margin: 0 auto;
+    color: #FFF;
+    padding: 5px 10px;
+    font-weight: 500;
+    z-index: 2;
+}
+
+.whaleDetails::-webkit-scrollbar, .vesselDetails::-webkit-scrollbar{
+  width: 5px;
+  direction:ltr;
+}
+
+/* Track */
+.whaleDetails::-webkit-scrollbar-track,.whaleDetails::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+.whaleDetails::-webkit-scrollbar-thumb,.vesselDetails::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.whaleDetails::-webkit-scrollbar-thumb:hover,.vesselDetails::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.vesselDetails .imageoverlay h4, .whaleDetails .imageoverlay h4{
+    margin: 0;
+    text-align: left;
+}
+/*
+.whaleDetails, .vesselDetails {
+  -ms-overflow-style: none;
+  scrollbar-width: none; 
+}
+*/
+.whaleDetails ul li:before,  .vesselDetails ul li:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,.1);
+    z-index: 0;
+}
+
+
+
+.leaflet-tooltip {
+    color: #FFF;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.leaflet-tooltip-right:before,.leaflet-tooltip-left:before,.leaflet-tooltip-top:before,.leaflet-tooltip-bottom:before{
+    display:none;
+}
+.tooltip_vessel_title {
+    display: block;
+}
+.tooltip_vessel_title span.vessel_title {
+    display: flex;
+}
+.tooltip_vessel_title .vessel_detail_speed{
+    display:none;
+}
+.rightsidebar{
+    display: flex;
+    align-items: center;
+    background-color: #2185d0;
+    color: #FFF;
+    font-weight: bold;
+    margin: 0 auto;
+    justify-content: center;
+    padding: 5px 0;
+}
+span.rightsidebarheadig {
+    font-size: 18px;
+    letter-spacing: 1px;
+    padding: 5px;
+}
+.infotooltipbox {
+    position: absolute;
+    z-index: 999999;
+    left: 5%;
+    background-color: #000;
+    top: 20%;
+    color: #FFF;
+    padding: 15px 10px;
+    border-radius: 10px;
+    border: 1px solid;
+    cursor: all-scroll;
+}
+.tooltipheading h3 {
+    font-family: 'Century Gothic';
+    font-size: 18px;
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 3px !important;
+}
+
+.tooltipheading span#formattedDate {
+    font-size: 12px;
+    margin-top: 0;
+    text-align: center;
+}
+
+.tooltipheading span#formattedDate {
+    font-size: 12px;
+    margin-top: 0;
+    text-align: center;
+    display: block;
+    margin-bottom: 15px;
+}
+.imageoverlay h3 {
+    font-size: 15px;
+    letter-spacing: .5px;
+    margin: 0;
+}
+.infotooltipbox .vesselsdetails h4 {
+    font-size: 15px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+.infotooltipbox .vesselsdetails > span {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+.vesselsdetails {
+    text-align: center;
+}
+.tableformat {
+    text-align: left;
+    display: grid;
+}
+.vesselssummary td {
+    font-size: 14px;
+    text-align: left;
+    padding-left: 10px;
+    max-width: 200px;
+    vertical-align: baseline;
+}
+.vesselssummary td:first-child {
+    width: 10%;
+    text-align: left;
+}
+.tooltip_vessel_title_yourhere {
+    margin-top: 15px;
+    margin-right: 10px;
+}
+span.vessel_title_yourhere {
+    
+    font-size: 1.17em;
+    font-weight: bold;
+    color: #fcfe03;
+}
+.infotooltipbox .tooltipheading {
+    min-width: 200px;
+}
+.leaflet-bottom.leaflet-right {
+    display: none;
+}
+.qrcodeonmobile_nearbyship{
+    position: absolute; right: 15px; bottom: 10px; z-index: 999;
+}
+.qrcodeonmobile_nearbyship .qrcodeimage img { display: inline-block; }
+.noneInteractiveWhales .vesselssummary td:first-child {
+    width: 20%;
+}
+
+
