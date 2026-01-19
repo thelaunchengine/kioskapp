@@ -10,7 +10,7 @@ import Menu from './Menu';
 import vesselsIconforPopup from './images/getS3Photo.jpeg';
 import whaleAlertQrmobileImg from './images/wle-img-2.png';
 import { getSpeedColor } from './Utils';
-import GeolocationMarker from './GeolocationMarker';
+
 
 
 function InteractiveShipsTest() {
@@ -237,7 +237,7 @@ function InteractiveShipsTest() {
                     <TileLayer
                         url="https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW50aGluc3QxIiwiYSI6ImNpbXJ1aGRtYTAxOGl2aG00dTF4ZTBlcmcifQ.k95ENmlDX1roCRKSFlgCNw" // Example tile layer 
                     />
-                    <GeolocationMarker />
+
                     {geojsonData && (
                         <GeoJSON data={geojsonData} style={{ fillColor: 'yellow', stroke: false }} />
                     )}

@@ -11,7 +11,7 @@ import marineFooterIcon from './images/m2-icon.jpg';
 import whaleFooterIcon from './images/m3-icon.png';
 import whaleAlertQrmobileImg from './images/wle-img-2.png';
 import { getSpeedColor } from './Utils';
-import GeolocationMarker from './GeolocationMarker';
+
 import Slideshow from './Slideshow';
 import 'leaflet-rotatedmarker';
 function NoneInteractiveWhales() {
@@ -266,7 +266,7 @@ function NoneInteractiveWhales() {
           <TileLayer
             url="https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW50aGluc3QxIiwiYSI6ImNpbXJ1aGRtYTAxOGl2aG00dTF4ZTBlcmcifQ.k95ENmlDX1roCRKSFlgCNw" // Example tile layer 
           />
-          <GeolocationMarker />
+
           {geojsonData && (
             <GeoJSON data={geojsonData} style={{ fillColor: 'yellow', stroke: false }} />
           )}
