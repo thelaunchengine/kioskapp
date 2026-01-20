@@ -188,10 +188,10 @@ function NearByShips() {
               icon={new Icon({
                 //iconUrl: customMarkerIconWhale,
                 iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
-                iconSize: whaledata.icon.includes('-R') ? [15, 15] : [45, 45],
-                iconAnchor: whaledata.icon.includes('-R') ? [7.5, 7.5] : [22.5, 22.5],
+                iconSize: whaledata.icon.includes('-R') ? [45, 45] : [15, 15],
+                iconAnchor: whaledata.icon.includes('-R') ? [22.5, 22.5] : [7.5, 7.5],
               })}
-              opacity={whaledata.icon.includes('-R') ? 0.8 : 1.0}
+              opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
             >
               <Popup>
                 <div>

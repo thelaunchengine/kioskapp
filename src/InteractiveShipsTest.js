@@ -309,10 +309,10 @@ function InteractiveShipsTest() {
                             icon={new Icon({
                                 //iconUrl: customMarkerIconWhale,
                                 iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
-                                iconSize: whaledata.icon.includes('-R') ? [7.5, 7.5] : [22.5, 22.5],
-                                iconAnchor: whaledata.icon.includes('-R') ? [5, 5] : [15, 15],
+                                iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [7.5, 7.5],
+                                iconAnchor: whaledata.icon.includes('-R') ? [15, 15] : [5, 5],
                             })}
-                            opacity={whaledata.icon.includes('-R') ? 0.8 : 1.0}
+                            opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
                             eventHandlers={{
                                 click: () => handleMarkerClick(whaledata.id)
                             }}

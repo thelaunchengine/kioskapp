@@ -220,7 +220,7 @@ const renderWhaleDetails = () => {
                 <GeoJSON data={geojsonData} style={{ fillColor: 'yellow',stroke: false }} />
               )}
       <Marker position={[32.10, -80.86]} 
-                        opacity={whaledata.icon.includes('-R') ? 0.8 : 1.0} icon={new Icon({
+                        opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8} icon={new Icon({
                         iconUrl: require(`./images/yellowpin.png`),
                         iconSize: [35],
                         iconAnchor: [15, 15]
@@ -238,7 +238,7 @@ const renderWhaleDetails = () => {
                     <Marker                
                     ref={(el) => (markerRefs.current[index] = el)}
                       position={[parseFloat(vessel.lat), parseFloat(vessel.lon)]}
-                      opacity={whaledata.icon.includes('-R') ? 0.8 : 1.0} icon={new Icon({
+                      opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8} icon={new Icon({
                             //iconUrl: './vessel_icon/'+vessel.vessel_type+'_'+getSpeedCategory(vessel.speed)+'.svg',
                             //iconUrl: require(`./vessel_icon/${vessel.vessel_type}_${getSpeedCategory(vessel.speed)}.svg`),
                             iconUrl: require(`./vessel_icon/${vessel.vessel_type === "cargo_ship" ? "cargo_ship" : "sailboat"}_${getSpeedCategory(vessel.speed)}.svg`),
@@ -268,7 +268,7 @@ const renderWhaleDetails = () => {
                 <Marker
                   key={whaledata.id}                  
                   position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
-                  opacity={whaledata.icon.includes('-R') ? 0.8 : 1.0} icon={new Icon({
+                  opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8} icon={new Icon({
                       //iconUrl: customMarkerIconWhale,
                       iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
                       iconSize: [30, 30], // Adjust the size as needed
