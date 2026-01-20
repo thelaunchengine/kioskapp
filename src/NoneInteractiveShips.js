@@ -204,15 +204,21 @@ function NoneInteractiveShips() {
 
   // Default pin location: Tybee Island
   const userLocation = null;
-  const defaultPosition = [32.02278559728223, -80.8438064757624];
-  const markerPosition = userLocation || defaultPosition;
+  const tybeeMarkerPosition = [32.02278559728223, -80.8438064757624];
+  const miamiMarkerPosition = [25.7947607, -80.1363613];
+
+  const searchParams = new URLSearchParams(window.location.search);
+  const isMiami = searchParams.get('region') === 'miami' || window.location.href.includes('miami');
+
+  const markerPosition = userLocation || (isMiami ? miamiMarkerPosition : tybeeMarkerPosition);
+  const mapCenter = isMiami ? miamiMarkerPosition : [32.00, -80.66];
 
   return (
 
     <div className="mainWrapper noneInteractiveShips">
       <div className="radar-map">
         <MapContainer
-          center={[32.00, -80.66]}
+          center={mapCenter}
           zoom={9.2} // Initial zoom level
           style={{ height: '100vh', align: 'center' }}
 
