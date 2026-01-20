@@ -286,6 +286,11 @@ function InteractiveShipsNew() {
 
 
 
+    // Default pin location: Tybee Island
+    const userLocation = null;
+    const defaultPosition = [32.02278559728223, -80.8438064757624];
+    const markerPosition = userLocation || defaultPosition;
+
     return (
         <div className={`mainWrapper ${isVisible ? 'overlay' : ''} ${isVisibleLayers ? 'overlay' : ''} ${isVisibleStats ? 'overlay' : ''} ${isVisibleHelp ? 'overlay' : ''}`} >
             <div className="radar-map">
@@ -464,6 +469,21 @@ function InteractiveShipsNew() {
                             ) : null
                         ))}
 
+                    <Marker
+                        position={markerPosition}
+                        icon={new Icon({
+                            iconUrl: require(`./images/yellowpin.png`),
+                            iconSize: [25],
+                            iconAnchor: [12, 12]
+                        })}
+                        interactive={false}
+                    >
+                        <Tooltip direction="left" offset={[0, 0]} opacity={1} permanent>
+                            <div className="tooltip_vessel_title_yourhere">
+                                <span className="vessel_title_yourhere">YOU ARE HERE</span>
+                            </div>
+                        </Tooltip>
+                    </Marker>
                 </MapContainer>
 
                 <div className="qrcodeonmobile">
