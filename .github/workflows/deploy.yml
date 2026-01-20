@@ -34,6 +34,7 @@ jobs:
           source: "build/*,build/.htaccess"
           target: "/opt/bitnami/apache/htdocs/map/kiosk/"
           strip_components: 1
+          rm: true
 
       - name: Finalize Deployment (Copy .htaccess)
         uses: appleboy/ssh-action@v1.0.3
