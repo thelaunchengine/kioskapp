@@ -421,7 +421,7 @@ function InteractiveShipsNew() {
                                     <h5 className="whaledateformator">{formatDate(whaledata.created)}</h5>
                                     <div className="whalevesselsdetailwithimg">
                                         <div className="whaleleft">
-                                            <img src={require(`./ images / whales / ${getImageFileName(whaledata.name)} -1.svg`)} alt={whaledata.name} />
+                                            <img src={require(`./images/whales/${whaledata.species.toLowerCase().replace(/\s/g, '')}.png`)} alt={whaledata.species} />
                                         </div>
                                         <div className="whaleright">
                                             <div className="detailformat">
