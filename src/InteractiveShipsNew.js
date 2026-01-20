@@ -1,5 +1,4 @@
 // InteractiveShipsNew.js
-// InteractiveShipsNew.js
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip, useMapEvents } from 'react-leaflet';
 // import rightWhaleGeo from './data/right_whale_geo.json';
@@ -18,6 +17,16 @@ import vesselsIconforPopup from './images/getS3Photo.jpeg';
 import whaleAlertQrmobileImg from './images/wle-img-2.png';
 import { getSpeedColor } from './Utils';
 
+
+function getSpeedCategory(speed) {
+    if (speed <= 10) {
+        return 'slow';
+    } else if (speed > 10 && speed < 12) {
+        return 'medium';
+    } else {
+        return 'fast';
+    }
+}
 
 function InteractiveShipsNew() {
     const [, setRefresh] = useState();
@@ -44,6 +53,25 @@ function InteractiveShipsNew() {
 
 
     const selectedOtherData = ['MigratoryCalvingGrounds', 'NearbyShips'];
+
+    const [rightWhaleData, setRightWhaleData] = useState(null);
+    const [humpbackWhaleData, setHumpbackWhaleData] = useState(null);
+    const [finWhaleData, setFinWhaleData] = useState(null);
+    const [minkeWhaleData, setMinkeWhaleData] = useState(null);
+
+    const [showRightWhaleCorridor, setShowRightWhaleCorridor] = useState(false);
+    const [showHumpbackWhaleCorridor, setShowHumpbackWhaleCorridor] = useState(false);
+    const [showFinWhaleCorridor, setShowFinWhaleCorridor] = useState(false);
+    const [showMinkeWhaleCorridor, setShowMinkeWhaleCorridor] = useState(false);
+
+    // Default pin location: Tybee Island
+    const userLocation = null;
+    const tybeeMarkerPosition = [32.02278559728223, -80.8438064757624];
+    const miamiMarkerPosition = [25.7947607, -80.1363613];
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const isMiami = searchParams.get('region') === 'miami' || window.location.href.includes('miami');
+
 
     useEffect(() => {
 
@@ -138,6 +166,15 @@ function InteractiveShipsNew() {
         return () => clearInterval(intervalId);
 
     }, []);
+
+    useEffect(() => {
+        if (isMiami) {
+            fetch(rightWhaleGeo).then(r => r.json()).then(setRightWhaleData);
+            fetch(humpbackWhaleGeo).then(r => r.json()).then(setHumpbackWhaleData);
+            fetch(finWhaleGeo).then(r => r.json()).then(setFinWhaleData);
+            fetch(minkeWhaleGeo).then(r => r.json()).then(setMinkeWhaleData);
+        }
+    }, [isMiami]);
 
     const [activeMarker, setActiveMarker] = useState(null);
     const handleWhaleMarkerClick = (id) => {
@@ -271,7 +308,7 @@ function InteractiveShipsNew() {
             }
         }
 
-        console.log(`Marker at(${markerPosition[0]}, ${markerPosition[1]}) - Tooltip direction: ${closestDirection} `);
+        // console.log(`Marker at(${markerPosition[0]}, ${markerPosition[1]}) - Tooltip direction: ${closestDirection} `);
         return closestDirection;
     };
 
@@ -290,35 +327,6 @@ function InteractiveShipsNew() {
         }
     };
 
-
-
-
-    // Default pin location: Tybee Island
-    const userLocation = null;
-    const tybeeMarkerPosition = [32.02278559728223, -80.8438064757624];
-    const miamiMarkerPosition = [25.7947607, -80.1363613];
-
-    const searchParams = new URLSearchParams(window.location.search);
-    const isMiami = searchParams.get('region') === 'miami' || window.location.href.includes('miami');
-
-    const [rightWhaleData, setRightWhaleData] = useState(null);
-    const [humpbackWhaleData, setHumpbackWhaleData] = useState(null);
-    const [finWhaleData, setFinWhaleData] = useState(null);
-    const [minkeWhaleData, setMinkeWhaleData] = useState(null);
-
-    const [showRightWhaleCorridor, setShowRightWhaleCorridor] = useState(false);
-    const [showHumpbackWhaleCorridor, setShowHumpbackWhaleCorridor] = useState(false);
-    const [showFinWhaleCorridor, setShowFinWhaleCorridor] = useState(false);
-    const [showMinkeWhaleCorridor, setShowMinkeWhaleCorridor] = useState(false);
-
-    useEffect(() => {
-        if (isMiami) {
-            fetch(rightWhaleGeo).then(r => r.json()).then(setRightWhaleData);
-            fetch(humpbackWhaleGeo).then(r => r.json()).then(setHumpbackWhaleData);
-            fetch(finWhaleGeo).then(r => r.json()).then(setFinWhaleData);
-            fetch(minkeWhaleGeo).then(r => r.json()).then(setMinkeWhaleData);
-        }
-    }, [isMiami]);
 
     const markerPosition = userLocation || (isMiami ? miamiMarkerPosition : tybeeMarkerPosition);
     const mapCenter = isMiami ? miamiMarkerPosition : [32.00, -80.66];
@@ -589,15 +597,6 @@ function InteractiveShipsNew() {
 
         </div>
     );
-}
-function getSpeedCategory(speed) {
-    if (speed <= 10) {
-        return 'slow';
-    } else if (speed > 10 && speed < 12) {
-        return 'medium';
-    } else {
-        return 'fast';
-    }
 }
 
 export default InteractiveShipsNew;
