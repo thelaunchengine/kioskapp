@@ -351,7 +351,7 @@ function InteractiveShipsNew() {
                                         key={vesselaws.server_track_id}
                                         position={[latitude, longitude]}
                                         icon={new Icon({
-                                            iconUrl: require(`./ vessel_icon / ${vesselaws.vessel_type === "cargo_ship" ? "cargo_ship" : "sailboat"}_${getSpeedCategory(vesselaws.speed)}.svg`),
+                                            iconUrl: require(`./vessel_icon/${vesselaws.vessel_type === "cargo_ship" ? "cargo_ship" : "sailboat"}_${getSpeedCategory(vesselaws.speed)}.svg`),
                                             iconSize: [75], // Adjust the size as needed
                                             iconAnchor: [10, 10], // Adjust the anchor point as needed                                            
                                         })}
@@ -360,7 +360,7 @@ function InteractiveShipsNew() {
                                     >
                                         <Popup className="vesselpopupcls">
                                             <div className="mainwrappopup">
-                                                <img src={require(`./ vessel_icon / ${vesselaws.vessel_type === "towing_ship" || vesselaws.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesselaws.vessel_type} _side.svg`)} alt={vesselaws.vessel_name} />
+                                                <img src={require(`./vessel_icon/${vesselaws.vessel_type === "towing_ship" || vesselaws.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesselaws.vessel_type}_side.svg`)} alt={vesselaws.vessel_name} />
                                                 <h3>{vesselaws.vessel_name}</h3>
                                                 <div className="vesselsdetailwithimg">
                                                     <div className="left">
@@ -457,14 +457,14 @@ function InteractiveShipsNew() {
                                     rotationAngle={calculateRotationAngle(vesseld.course)}
                                     rotationOrigin={['center', 'center']}
                                     icon={new Icon({
-                                        iconUrl: require(`./ vessel_icon / sailboat_slow.svg`),
+                                        iconUrl: require(`./vessel_icon/sailboat_slow.svg`),
                                         iconSize: [0], // Adjust the size as needed
                                         iconAnchor: [0, 0], // Adjust the anchor point as needed                                            
                                     })}
                                 >
                                     <Popup className="vesselpopupcls">
                                         <div className="mainwrappopup">
-                                            <img src={require(`./ vessel_icon / ${vesseld.vessel_type === "towing_ship" || vesseld.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesseld.vessel_type} _side.svg`)} alt={vesseld.vessel_name} />
+                                            <img src={require(`./vessel_icon/${vesseld.vessel_type === "towing_ship" || vesseld.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesseld.vessel_type}_side.svg`)} alt={vesseld.vessel_name} />
                                             <h3>{vesseld.vessel_name}</h3>
                                             <div className="vesselsdetailwithimg">
                                                 <div className="left">
