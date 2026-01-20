@@ -267,10 +267,10 @@ function InteractiveShips() {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     />
-                    {isMiami && rightWhaleData && <GeoJSON data={rightWhaleData} style={{ color: 'red', fillColor: 'red', fillOpacity: 0.2 }} />}
-                    {isMiami && humpbackWhaleData && <GeoJSON data={humpbackWhaleData} style={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }} />}
-                    {isMiami && finWhaleData && <GeoJSON data={finWhaleData} style={{ color: 'green', fillColor: 'green', fillOpacity: 0.2 }} />}
-                    {isMiami && minkeWhaleData && <GeoJSON data={minkeWhaleData} style={{ color: 'purple', fillColor: 'purple', fillOpacity: 0.2 }} />}
+                    {isMiami && rightWhaleData && showRightWhaleCorridor && <GeoJSON data={rightWhaleData} style={{ color: 'red', fillColor: 'red', fillOpacity: 0.2 }} />}
+                    {isMiami && humpbackWhaleData && showHumpbackWhaleCorridor && <GeoJSON data={humpbackWhaleData} style={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }} />}
+                    {isMiami && finWhaleData && showFinWhaleCorridor && <GeoJSON data={finWhaleData} style={{ color: 'green', fillColor: 'green', fillOpacity: 0.2 }} />}
+                    {isMiami && minkeWhaleData && showMinkeWhaleCorridor && <GeoJSON data={minkeWhaleData} style={{ color: 'purple', fillColor: 'purple', fillOpacity: 0.2 }} />}
                     {/* Plot vessels as markers if vesselData is defined */}
                     {vesselData &&
                         vesselData.map((vesselaws, index) => {
@@ -499,6 +499,15 @@ function InteractiveShips() {
                 staticVesselData={staticVesselData}
                 formatTypeClass={formatTypeClass}
                 staticWhalesData={staticWhalesData}
+                isMiami={isMiami}
+                showRightWhaleCorridor={showRightWhaleCorridor}
+                setShowRightWhaleCorridor={setShowRightWhaleCorridor}
+                showHumpbackWhaleCorridor={showHumpbackWhaleCorridor}
+                setShowHumpbackWhaleCorridor={setShowHumpbackWhaleCorridor}
+                showFinWhaleCorridor={showFinWhaleCorridor}
+                setShowFinWhaleCorridor={setShowFinWhaleCorridor}
+                showMinkeWhaleCorridor={showMinkeWhaleCorridor}
+                setShowMinkeWhaleCorridor={setShowMinkeWhaleCorridor}
             />
 
         </div>

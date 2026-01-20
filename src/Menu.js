@@ -33,7 +33,18 @@ function Menu({
     totalVessels,
     staticVesselData,
     formatTypeClass,
-    staticWhalesData
+    staticVesselData,
+    formatTypeClass,
+    staticWhalesData,
+    isMiami,
+    showRightWhaleCorridor,
+    setShowRightWhaleCorridor,
+    showHumpbackWhaleCorridor,
+    setShowHumpbackWhaleCorridor,
+    showFinWhaleCorridor,
+    setShowFinWhaleCorridor,
+    showMinkeWhaleCorridor,
+    setShowMinkeWhaleCorridor
 }) {
 
     const popupRef = useRef(null);
@@ -551,6 +562,50 @@ function Menu({
                                                 />
                                                 <label htmlFor="migratoryCalvingGrounds">Migratory, Calving and Calving Grounds</label>
                                             </div>
+
+                                            {isMiami && (
+                                                <div className="checkboxwhalescorridor">
+                                                    <div className="textlabel">
+                                                        <span>Whale Corridors:</span>
+                                                    </div>
+                                                    <div className="checkboxmain">
+                                                        <input
+                                                            type="checkbox"
+                                                            id="rightWhaleCorridor"
+                                                            checked={showRightWhaleCorridor}
+                                                            onChange={(e) => setShowRightWhaleCorridor(e.target.checked)}
+                                                        />
+                                                        <label htmlFor="rightWhaleCorridor">Right Whale Corridor</label>
+                                                    </div>
+                                                    <div className="checkboxmain">
+                                                        <input
+                                                            type="checkbox"
+                                                            id="humpbackWhaleCorridor"
+                                                            checked={showHumpbackWhaleCorridor}
+                                                            onChange={(e) => setShowHumpbackWhaleCorridor(e.target.checked)}
+                                                        />
+                                                        <label htmlFor="humpbackWhaleCorridor">Humpback Whale Corridor</label>
+                                                    </div>
+                                                    <div className="checkboxmain">
+                                                        <input
+                                                            type="checkbox"
+                                                            id="finWhaleCorridor"
+                                                            checked={showFinWhaleCorridor}
+                                                            onChange={(e) => setShowFinWhaleCorridor(e.target.checked)}
+                                                        />
+                                                        <label htmlFor="finWhaleCorridor">Fin Whale Corridor</label>
+                                                    </div>
+                                                    <div className="checkboxmain">
+                                                        <input
+                                                            type="checkbox"
+                                                            id="minkeWhaleCorridor"
+                                                            checked={showMinkeWhaleCorridor}
+                                                            onChange={(e) => setShowMinkeWhaleCorridor(e.target.checked)}
+                                                        />
+                                                        <label htmlFor="minkeWhaleCorridor">Minke Whale Corridor</label>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

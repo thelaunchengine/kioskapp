@@ -313,277 +313,298 @@ function InteractiveShipsNew() {
             fetch(finWhaleGeo).then(r => r.json()).then(setFinWhaleData);
             fetch(minkeWhaleGeo).then(r => r.json()).then(setMinkeWhaleData);
         }
-    }, [isMiami]);
+        const [showRightWhaleCorridor, setShowRightWhaleCorridor] = useState(false);
+        const [showHumpbackWhaleCorridor, setShowHumpbackWhaleCorridor] = useState(false);
+        const [showFinWhaleCorridor, setShowFinWhaleCorridor] = useState(false);
+        const [showMinkeWhaleCorridor, setShowMinkeWhaleCorridor] = useState(false);
 
-    const markerPosition = userLocation || (isMiami ? miamiMarkerPosition : tybeeMarkerPosition);
-    const mapCenter = isMiami ? miamiMarkerPosition : [32.00, -80.66];
+        useEffect(() => {
+            if (isMiami) {
+                fetch(rightWhaleGeo).then(r => r.json()).then(setRightWhaleData);
+                fetch(humpbackWhaleGeo).then(r => r.json()).then(setHumpbackWhaleData);
+                fetch(finWhaleGeo).then(r => r.json()).then(setFinWhaleData);
+                fetch(minkeWhaleGeo).then(r => r.json()).then(setMinkeWhaleData);
+            }
+        }, [isMiami]);
 
-    return (
-        <div className={`mainWrapper ${isVisible ? 'overlay' : ''} ${isVisibleLayers ? 'overlay' : ''} ${isVisibleStats ? 'overlay' : ''} ${isVisibleHelp ? 'overlay' : ''} `} >
-            <div className="radar-map">
-                <MapContainer
-                    center={isMiami ? [26.15, -80.0] : [32.0, -80.0]}
-                    zoom={isMiami ? 8 : 9}
-                    maxZoom={12}
-                    minZoom={isMiami ? 7 : 7}
-                    style={{ height: '100%', width: '100%' }}
-                >
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    />
-                    {isMiami && rightWhaleData && <GeoJSON data={rightWhaleData} style={{ color: 'red', fillColor: 'red', fillOpacity: 0.2 }} />}
-                    {isMiami && humpbackWhaleData && <GeoJSON data={humpbackWhaleData} style={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }} />}
-                    {isMiami && finWhaleData && <GeoJSON data={finWhaleData} style={{ color: 'green', fillColor: 'green', fillOpacity: 0.2 }} />}
-                    {isMiami && minkeWhaleData && <GeoJSON data={minkeWhaleData} style={{ color: 'purple', fillColor: 'purple', fillOpacity: 0.2 }} />}
-                    {/* Plot vessels as markers if vesselData is defined */}
-                    {vesselData &&
-                        vesselData.map((vesselaws, index) => {
-                            const latitude = parseFloat(vesselaws.lat).toFixed(6);
-                            const longitude = parseFloat(vesselaws.lon).toFixed(6);
+        const markerPosition = userLocation || (isMiami ? miamiMarkerPosition : tybeeMarkerPosition);
+        const mapCenter = isMiami ? miamiMarkerPosition : [32.00, -80.66];
 
-                            const otherMarkerPositions = vesselData
-                                .filter((_, i) => i !== index)
-                                .map(({ lat, lon }) => [parseFloat(lat), parseFloat(lon)]);
+        return (
+            <div className={`mainWrapper ${isVisible ? 'overlay' : ''} ${isVisibleLayers ? 'overlay' : ''} ${isVisibleStats ? 'overlay' : ''} ${isVisibleHelp ? 'overlay' : ''} `} >
+                <div className="radar-map">
+                    <MapContainer
+                        center={isMiami ? [26.15, -80.0] : [32.0, -80.0]}
+                        zoom={isMiami ? 8 : 9}
+                        maxZoom={12}
+                        minZoom={isMiami ? 7 : 7}
+                        style={{ height: '100%', width: '100%' }}
+                    >
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        />
+                        {isMiami && rightWhaleData && showRightWhaleCorridor && <GeoJSON data={rightWhaleData} style={{ color: 'red', fillColor: 'red', fillOpacity: 0.2 }} />}
+                        {isMiami && humpbackWhaleData && showHumpbackWhaleCorridor && <GeoJSON data={humpbackWhaleData} style={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }} />}
+                        {isMiami && finWhaleData && showFinWhaleCorridor && <GeoJSON data={finWhaleData} style={{ color: 'green', fillColor: 'green', fillOpacity: 0.2 }} />}
+                        {isMiami && minkeWhaleData && showMinkeWhaleCorridor && <GeoJSON data={minkeWhaleData} style={{ color: 'purple', fillColor: 'purple', fillOpacity: 0.2 }} />}
+                        {/* Plot vessels as markers if vesselData is defined */}
+                        {vesselData &&
+                            vesselData.map((vesselaws, index) => {
+                                const latitude = parseFloat(vesselaws.lat).toFixed(6);
+                                const longitude = parseFloat(vesselaws.lon).toFixed(6);
 
-                            const tooltipDirection = getTooltipDirection([latitude, longitude], otherMarkerPositions);
-                            const tooltipOffset = getTooltipOffset(tooltipDirection);
-                            const rotationAngle = 0 || 0;
-                            // console.log("headingnew---"+headingnew);
+                                const otherMarkerPositions = vesselData
+                                    .filter((_, i) => i !== index)
+                                    .map(({ lat, lon }) => [parseFloat(lat), parseFloat(lon)]);
 
-                            if (!isNaN(latitude) && !isNaN(longitude)) {
-                                // console.log('Latitude:', latitude);
-                                // console.log('Longitude:', longitude);
-                                return vesselaws.server_track_id ? (
+                                const tooltipDirection = getTooltipDirection([latitude, longitude], otherMarkerPositions);
+                                const tooltipOffset = getTooltipOffset(tooltipDirection);
+                                const rotationAngle = 0 || 0;
+                                // console.log("headingnew---"+headingnew);
+
+                                if (!isNaN(latitude) && !isNaN(longitude)) {
+                                    // console.log('Latitude:', latitude);
+                                    // console.log('Longitude:', longitude);
+                                    return vesselaws.server_track_id ? (
+                                        <Marker
+                                            key={vesselaws.server_track_id}
+                                            position={[latitude, longitude]}
+                                            icon={new Icon({
+                                                iconUrl: require(`./vessel_icon/${vesselaws.vessel_type === "cargo_ship" ? "cargo_ship" : "sailboat"}_${getSpeedCategory(vesselaws.speed)}.svg`),
+                                                iconSize: [75], // Adjust the size as needed
+                                                iconAnchor: [10, 10], // Adjust the anchor point as needed                                            
+                                            })}
+                                            rotationAngle={calculateRotationAngle(vesselaws.heading)}
+                                            rotationOrigin={['center', 'center']}
+                                        >
+                                            <Popup className="vesselpopupcls">
+                                                <div className="mainwrappopup">
+                                                    <img src={require(`./vessel_icon/${vesselaws.vessel_type === "towing_ship" || vesselaws.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesselaws.vessel_type}_side.svg`)} alt={vesselaws.vessel_name} />
+                                                    <h3>{vesselaws.vessel_name}</h3>
+                                                    <div className="vesselsdetailwithimg">
+                                                        <div className="left">
+                                                            {vesselaws.recent_photo_key ? (
+                                                                <img src={vesselaws.recent_photo_key} alt={vesselaws.vessel_name} />
+                                                            ) : (
+                                                                <img src={vesselsIconforPopup} alt={vesselaws.vessel_name} />
+                                                            )}
+                                                        </div>
+                                                        <div className="right">
+                                                            <div className="vesselsdetailformat">
+                                                                <p>SPEED: <span style={{ backgroundColor: getSpeedColor(vesselaws.speed), padding: '2px 6px', borderRadius: '3px' }}>{vesselaws.speed} knots</span></p>
+                                                            </div>
+                                                            <div className="vesselsdetailformat">
+                                                                <p>TYPE:</p>
+                                                                <p className="capitalize">{vesselaws.vessel_type.replace(/_/g, ' ')}</p>
+                                                            </div>
+                                                            <div className="vesselsdetailformat">
+                                                                <p>LAST UPDATED:</p>
+                                                                <p>{formatFullDate(vesselaws.last_update_disp)}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {/* Add more vessel information here */}
+                                                </div>
+                                            </Popup>
+                                            <Tooltip direction={tooltipDirection} offset={tooltipOffset} opacity={1} permanent><div className="tooltip_vessel_title" style={{ transform: `rotate(${rotationAngle}deg)`, whiteSpace: 'nowrap' }}><span className="vessel_title" style={{ backgroundColor: 'grey', padding: '0px 5px' }}>{vesselaws.vessel_name}{vesselaws.speed ? <span style={{ backgroundColor: getSpeedColor(vesselaws.speed), padding: '2px 4px', borderRadius: '3px', display: 'inline-block', marginLeft: '4px' }}>{vesselaws.speed} kt</span> : ''}</span><span className="vessel_detail_speed">{vesselaws.heading} &deg;</span></div></Tooltip>
+                                        </Marker>
+                                    ) : null;
+                                } else {
+                                    console.warn('Invalid latitude or longitude:', vesselaws.lat, vesselaws.lon);
+                                    return null; // Skip rendering if latitude or longitude is invalid
+                                }
+                            })}
+
+                        {whaleDetail && whaleDetail.map((whaledata, index) => (
+                            <Marker
+                                key={whaledata.id}
+                                position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
+                                icon={new Icon({
+                                    //iconUrl: customMarkerIconWhale,
+                                    iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
+                                    iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
+                                    iconAnchor: whaledata.icon.includes('-R') ? [15, 15] : [10, 10],
+                                })}
+                                opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
+                                eventHandlers={{
+                                    click: () => handleMarkerClick(whaledata.id)
+                                }}
+                                className={selectedMarker === whaledata.id ? 'active-marker' : ''}
+                            >
+                                <Popup>
+                                    <div className="whalemainwrappopup">
+                                        <img src={require(`./images/whales/icon/${getImageFileName(whaledata.name)}-2.svg`)} alt={whaledata.name} />
+                                        <h3>
+                                            {whaledata.moderated === 1 ? 'CONFIRMED SIGHTING' : 'UNCONFIRMED SIGHTING'}
+                                        </h3>
+                                        <h5 className="whaledateformator">{formatDate(whaledata.created)}</h5>
+                                        <div className="whalevesselsdetailwithimg">
+                                            <div className="whaleleft">
+                                                <img src={require(`./images/whales/${whaledata.species.toLowerCase().replace(/\s/g, '')}.png`)} alt={whaledata.species} />
+                                            </div>
+                                            <div className="whaleright">
+                                                <div className="detailformat">
+                                                    <p>SPECIES:</p>
+                                                    <p>{whaledata.name}</p>
+                                                </div>
+                                                <div className="detailformat">
+                                                    <p>NUMBER SEEN: {whaledata.number_sighted}</p>
+                                                </div>
+                                                {whaledata.comments && (
+                                                    <div className="detailformat">
+                                                        <p>NOTES:</p>
+                                                        {whaledata.comments.split('<br>').map((part, partIndex) => (
+                                                            <p key={partIndex}>{he.decode(part)}</p>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Popup>
+                                {/* <Tooltip direction="" offset={[10, 10]} opacity={1} permanent>{whaledata.name}</Tooltip> */}
+                            </Marker>
+                        ))}
+
+                        {vesselDdetail &&
+                            vesselDdetail.map((vesseld, index) => (
+                                vesseld.key ? (
                                     <Marker
-                                        key={vesselaws.server_track_id}
-                                        position={[latitude, longitude]}
-                                        icon={new Icon({
-                                            iconUrl: require(`./vessel_icon/${vesselaws.vessel_type === "cargo_ship" ? "cargo_ship" : "sailboat"}_${getSpeedCategory(vesselaws.speed)}.svg`),
-                                            iconSize: [75], // Adjust the size as needed
-                                            iconAnchor: [10, 10], // Adjust the anchor point as needed                                            
-                                        })}
-                                        rotationAngle={calculateRotationAngle(vesselaws.heading)}
+                                        key={vesseld.key}
+                                        ref={(el) => (markerRefs.current[index] = el)}
+                                        position={[31.72278559728223, -80.6038064757624]}
+                                        rotationAngle={calculateRotationAngle(vesseld.course)}
                                         rotationOrigin={['center', 'center']}
+                                        icon={new Icon({
+                                            iconUrl: require(`./vessel_icon/sailboat_slow.svg`),
+                                            iconSize: [0], // Adjust the size as needed
+                                            iconAnchor: [0, 0], // Adjust the anchor point as needed                                            
+                                        })}
                                     >
                                         <Popup className="vesselpopupcls">
                                             <div className="mainwrappopup">
-                                                <img src={require(`./vessel_icon/${vesselaws.vessel_type === "towing_ship" || vesselaws.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesselaws.vessel_type}_side.svg`)} alt={vesselaws.vessel_name} />
-                                                <h3>{vesselaws.vessel_name}</h3>
+                                                <img src={require(`./vessel_icon/${vesseld.vessel_type === "towing_ship" || vesseld.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesseld.vessel_type}_side.svg`)} alt={vesseld.vessel_name} />
+                                                <h3>{vesseld.vessel_name}</h3>
                                                 <div className="vesselsdetailwithimg">
                                                     <div className="left">
-                                                        {vesselaws.recent_photo_key ? (
-                                                            <img src={vesselaws.recent_photo_key} alt={vesselaws.vessel_name} />
-                                                        ) : (
-                                                            <img src={vesselsIconforPopup} alt={vesselaws.vessel_name} />
-                                                        )}
+                                                        <img src={vesseld.key} alt={vesseld.vessel_name} />
                                                     </div>
                                                     <div className="right">
                                                         <div className="vesselsdetailformat">
-                                                            <p>SPEED: <span style={{ backgroundColor: getSpeedColor(vesselaws.speed), padding: '2px 6px', borderRadius: '3px' }}>{vesselaws.speed} knots</span></p>
+                                                            <p>SPEED: <span style={{ backgroundColor: getSpeedColor(vesseld.speed), padding: '2px 6px', borderRadius: '3px' }}>{vesseld.speed} knots</span></p>
                                                         </div>
                                                         <div className="vesselsdetailformat">
                                                             <p>TYPE:</p>
-                                                            <p className="capitalize">{vesselaws.vessel_type.replace(/_/g, ' ')}</p>
+                                                            <p className="capitalize">{vesseld.vessel_type.replace(/_/g, ' ')}</p>
                                                         </div>
                                                         <div className="vesselsdetailformat">
                                                             <p>LAST UPDATED:</p>
-                                                            <p>{formatFullDate(vesselaws.last_update_disp)}</p>
+                                                            <p>{formatFullDate(vesseld.created)}</p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {/* Add more vessel information here */}
                                             </div>
                                         </Popup>
-                                        <Tooltip direction={tooltipDirection} offset={tooltipOffset} opacity={1} permanent><div className="tooltip_vessel_title" style={{ transform: `rotate(${rotationAngle}deg)`, whiteSpace: 'nowrap' }}><span className="vessel_title" style={{ backgroundColor: 'grey', padding: '0px 5px' }}>{vesselaws.vessel_name}{vesselaws.speed ? <span style={{ backgroundColor: getSpeedColor(vesselaws.speed), padding: '2px 4px', borderRadius: '3px', display: 'inline-block', marginLeft: '4px' }}>{vesselaws.speed} kt</span> : ''}</span><span className="vessel_detail_speed">{vesselaws.heading} &deg;</span></div></Tooltip>
                                     </Marker>
-                                ) : null;
-                            } else {
-                                console.warn('Invalid latitude or longitude:', vesselaws.lat, vesselaws.lon);
-                                return null; // Skip rendering if latitude or longitude is invalid
-                            }
-                        })}
+                                ) : null
+                            ))}
 
-                    {whaleDetail && whaleDetail.map((whaledata, index) => (
                         <Marker
-                            key={whaledata.id}
-                            position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
+                            position={markerPosition}
                             icon={new Icon({
-                                //iconUrl: customMarkerIconWhale,
-                                iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
-                                iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
-                                iconAnchor: whaledata.icon.includes('-R') ? [15, 15] : [10, 10],
+                                iconUrl: require('./images/yellowpin.png'),
+                                iconSize: [25],
+                                iconAnchor: [12, 12]
                             })}
-                            opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
-                            eventHandlers={{
-                                click: () => handleMarkerClick(whaledata.id)
-                            }}
-                            className={selectedMarker === whaledata.id ? 'active-marker' : ''}
+                            interactive={false}
                         >
-                            <Popup>
-                                <div className="whalemainwrappopup">
-                                    <img src={require(`./images/whales/icon/${getImageFileName(whaledata.name)}-2.svg`)} alt={whaledata.name} />
-                                    <h3>
-                                        {whaledata.moderated === 1 ? 'CONFIRMED SIGHTING' : 'UNCONFIRMED SIGHTING'}
-                                    </h3>
-                                    <h5 className="whaledateformator">{formatDate(whaledata.created)}</h5>
-                                    <div className="whalevesselsdetailwithimg">
-                                        <div className="whaleleft">
-                                            <img src={require(`./images/whales/${whaledata.species.toLowerCase().replace(/\s/g, '')}.png`)} alt={whaledata.species} />
-                                        </div>
-                                        <div className="whaleright">
-                                            <div className="detailformat">
-                                                <p>SPECIES:</p>
-                                                <p>{whaledata.name}</p>
-                                            </div>
-                                            <div className="detailformat">
-                                                <p>NUMBER SEEN: {whaledata.number_sighted}</p>
-                                            </div>
-                                            {whaledata.comments && (
-                                                <div className="detailformat">
-                                                    <p>NOTES:</p>
-                                                    {whaledata.comments.split('<br>').map((part, partIndex) => (
-                                                        <p key={partIndex}>{he.decode(part)}</p>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
+                            <Tooltip direction="left" offset={[0, 0]} opacity={1} permanent>
+                                <div className="tooltip_vessel_title_yourhere">
+                                    <span className="vessel_title_yourhere">YOU ARE HERE</span>
                                 </div>
-                            </Popup>
-                            {/* <Tooltip direction="" offset={[10, 10]} opacity={1} permanent>{whaledata.name}</Tooltip> */}
+                            </Tooltip>
                         </Marker>
-                    ))}
+                    </MapContainer>
 
-                    {vesselDdetail &&
-                        vesselDdetail.map((vesseld, index) => (
-                            vesseld.key ? (
-                                <Marker
-                                    key={vesseld.key}
-                                    ref={(el) => (markerRefs.current[index] = el)}
-                                    position={[31.72278559728223, -80.6038064757624]}
-                                    rotationAngle={calculateRotationAngle(vesseld.course)}
-                                    rotationOrigin={['center', 'center']}
-                                    icon={new Icon({
-                                        iconUrl: require(`./vessel_icon/sailboat_slow.svg`),
-                                        iconSize: [0], // Adjust the size as needed
-                                        iconAnchor: [0, 0], // Adjust the anchor point as needed                                            
-                                    })}
-                                >
-                                    <Popup className="vesselpopupcls">
-                                        <div className="mainwrappopup">
-                                            <img src={require(`./vessel_icon/${vesseld.vessel_type === "towing_ship" || vesseld.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesseld.vessel_type}_side.svg`)} alt={vesseld.vessel_name} />
-                                            <h3>{vesseld.vessel_name}</h3>
-                                            <div className="vesselsdetailwithimg">
-                                                <div className="left">
-                                                    <img src={vesseld.key} alt={vesseld.vessel_name} />
-                                                </div>
-                                                <div className="right">
-                                                    <div className="vesselsdetailformat">
-                                                        <p>SPEED: <span style={{ backgroundColor: getSpeedColor(vesseld.speed), padding: '2px 6px', borderRadius: '3px' }}>{vesseld.speed} knots</span></p>
-                                                    </div>
-                                                    <div className="vesselsdetailformat">
-                                                        <p>TYPE:</p>
-                                                        <p className="capitalize">{vesseld.vessel_type.replace(/_/g, ' ')}</p>
-                                                    </div>
-                                                    <div className="vesselsdetailformat">
-                                                        <p>LAST UPDATED:</p>
-                                                        <p>{formatFullDate(vesseld.created)}</p>
-                                                    </div>
-                                                </div>
+                    <div className="qrcodeonmobile">
+                        <div className="qrcodeimage">
+                            <img src={whaleAlertQrmobileImg} alt="QR" />
+                        </div>
+                        <div className="qrcodetext">
+                            Download the Free App
+                        </div>
+                    </div>
+
+                </div>
+                <div className="vesselDetails">
+                    <div className="rightsidebar"><span className="rightsidebarheadig">NEARBY SHIPS</span></div>
+                    <ul>
+                        {vesselDdetail &&
+                            vesselDdetail.map((vesseld, index) => (
+                                vesseld.key ? (
+                                    <li key={index} onClick={() => markerRefs.current[index].openPopup()} className={activeIndex === index ? 'active' : ''}>
+                                        <img src={vesseld.key} alt={vesseld.vessel_name} />
+                                        <div className="imageoverlay">
+                                            <div className="vesselstitleanddate">
+                                                <h3>{vesseld.vessel_name}</h3>
+                                                <span>{formatDate(vesseld.created)}</span>
                                             </div>
+                                            <div className="speedlimitbotomright">
+                                                <span style={{ backgroundColor: getSpeedColor(vesseld.speed), padding: '2px 6px', borderRadius: '3px' }}>{vesseld.speed} knots</span>
+                                            </div>
+
                                         </div>
-                                    </Popup>
-                                </Marker>
-                            ) : null
-                        ))}
+                                    </li>
+                                ) : null
+                            ))}
+                    </ul>
 
-                    <Marker
-                        position={markerPosition}
-                        icon={new Icon({
-                            iconUrl: require('./images/yellowpin.png'),
-                            iconSize: [25],
-                            iconAnchor: [12, 12]
-                        })}
-                        interactive={false}
-                    >
-                        <Tooltip direction="left" offset={[0, 0]} opacity={1} permanent>
-                            <div className="tooltip_vessel_title_yourhere">
-                                <span className="vessel_title_yourhere">YOU ARE HERE</span>
-                            </div>
-                        </Tooltip>
-                    </Marker>
-                </MapContainer>
-
-                <div className="qrcodeonmobile">
-                    <div className="qrcodeimage">
-                        <img src={whaleAlertQrmobileImg} alt="QR" />
-                    </div>
-                    <div className="qrcodetext">
-                        Download the Free App
-                    </div>
                 </div>
 
+                <Menu
+                    isVisible={isVisible}
+                    isVisibleLayers={isVisibleLayers}
+                    isVisibleStats={isVisibleStats}
+                    isVisibleResources={isVisibleResources}
+                    isVisibleHelp={isVisibleHelp}
+                    whaleDetail={whaleDetail}
+                    vesselData={vesselData}
+                    setIsVisible={setIsVisible}
+                    setIsVisibleLayers={setIsVisibleLayers}
+                    setIsVisibleStats={setIsVisibleStats}
+                    setIsVisibleResources={setIsVisibleResources}
+                    setIsVisibleHelp={setIsVisibleHelp}
+                    setwhaleDetail={setwhaleDetail}
+                    setVesselData={setVesselData}
+                    selectedOtherData={selectedOtherData}
+                    formattedDate={formattedDate}
+                    totalVessels={totalVessels}
+                    staticVesselData={staticVesselData}
+                    formatTypeClass={formatTypeClass}
+                    staticWhalesData={staticWhalesData}
+                    isMiami={isMiami}
+                    showRightWhaleCorridor={showRightWhaleCorridor}
+                    setShowRightWhaleCorridor={setShowRightWhaleCorridor}
+                    showHumpbackWhaleCorridor={showHumpbackWhaleCorridor}
+                    setShowHumpbackWhaleCorridor={setShowHumpbackWhaleCorridor}
+                    showFinWhaleCorridor={showFinWhaleCorridor}
+                    setShowFinWhaleCorridor={setShowFinWhaleCorridor}
+                    showMinkeWhaleCorridor={showMinkeWhaleCorridor}
+                    setShowMinkeWhaleCorridor={setShowMinkeWhaleCorridor}
+                />
+
             </div>
-            <div className="vesselDetails">
-                <div className="rightsidebar"><span className="rightsidebarheadig">NEARBY SHIPS</span></div>
-                <ul>
-                    {vesselDdetail &&
-                        vesselDdetail.map((vesseld, index) => (
-                            vesseld.key ? (
-                                <li key={index} onClick={() => markerRefs.current[index].openPopup()} className={activeIndex === index ? 'active' : ''}>
-                                    <img src={vesseld.key} alt={vesseld.vessel_name} />
-                                    <div className="imageoverlay">
-                                        <div className="vesselstitleanddate">
-                                            <h3>{vesseld.vessel_name}</h3>
-                                            <span>{formatDate(vesseld.created)}</span>
-                                        </div>
-                                        <div className="speedlimitbotomright">
-                                            <span style={{ backgroundColor: getSpeedColor(vesseld.speed), padding: '2px 6px', borderRadius: '3px' }}>{vesseld.speed} knots</span>
-                                        </div>
-
-                                    </div>
-                                </li>
-                            ) : null
-                        ))}
-                </ul>
-
-            </div>
-
-            <Menu
-                isVisible={isVisible}
-                isVisibleLayers={isVisibleLayers}
-                isVisibleStats={isVisibleStats}
-                isVisibleResources={isVisibleResources}
-                isVisibleHelp={isVisibleHelp}
-                whaleDetail={whaleDetail}
-                vesselData={vesselData}
-                setIsVisible={setIsVisible}
-                setIsVisibleLayers={setIsVisibleLayers}
-                setIsVisibleStats={setIsVisibleStats}
-                setIsVisibleResources={setIsVisibleResources}
-                setIsVisibleHelp={setIsVisibleHelp}
-                setwhaleDetail={setwhaleDetail}
-                setVesselData={setVesselData}
-                selectedOtherData={selectedOtherData}
-                formattedDate={formattedDate}
-                totalVessels={totalVessels}
-                staticVesselData={staticVesselData}
-                formatTypeClass={formatTypeClass}
-                staticWhalesData={staticWhalesData}
-            />
-
-        </div>
-    );
-}
-function getSpeedCategory(speed) {
-    if (speed <= 10) {
-        return 'slow';
-    } else if (speed > 10 && speed < 12) {
-        return 'medium';
-    } else {
-        return 'fast';
+        );
     }
-}
+function getSpeedCategory(speed) {
+            if (speed <= 10) {
+                return 'slow';
+            } else if (speed > 10 && speed < 12) {
+                return 'medium';
+            } else {
+                return 'fast';
+            }
+        }
 
 export default InteractiveShipsNew;
