@@ -309,25 +309,20 @@ function InteractiveShipsNew() {
             <div className="radar-map">
                 <MapContainer
                     center={mapCenter}
-                    zoom={9.2} // Initial zoom level
-                    style={{ height: '100vh', align: 'center' }}
-
+                    center={isMiami ? [26.15, -80.0] : [32.0, -80.0]}
+                    zoom={isMiami ? 8 : 9}
+                    maxZoom={12}
+                    minZoom={isMiami ? 7 : 7}
+                    style={{ height: '100%', width: '100%' }}
                 >
                     <TileLayer
-                        url="https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW50aGluc3QxIiwiYSI6ImNpbXJ1aGRtYTAxOGl2aG00dTF4ZTBlcmcifQ.k95ENmlDX1roCRKSFlgCNw" // Example tile layer 
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     />
-
-                    {geojsonData && (
-                        <GeoJSON data={geojsonData} style={{ fillColor: 'yellow', stroke: false }} />
-                    )}
-                    {isMiami && (
-                        <>
-                            <GeoJSON data={rightWhaleGeo} style={{ fillColor: 'red', color: 'red', weight: 1, fillOpacity: 0.2 }} />
-                            <GeoJSON data={humpbackWhaleGeo} style={{ fillColor: 'blue', color: 'blue', weight: 1, fillOpacity: 0.2 }} />
-                            <GeoJSON data={finWhaleGeo} style={{ fillColor: 'green', color: 'green', weight: 1, fillOpacity: 0.2 }} />
-                            <GeoJSON data={minkeWhaleGeo} style={{ fillColor: 'purple', color: 'purple', weight: 1, fillOpacity: 0.2 }} />
-                        </>
-                    )}
+                    {isMiami && rightWhaleData && <GeoJSON data={rightWhaleData} style={{ color: 'red', fillColor: 'red', fillOpacity: 0.2 }} />}
+                    {isMiami && humpbackWhaleData && <GeoJSON data={humpbackWhaleData} style={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }} />}
+                    {isMiami && finWhaleData && <GeoJSON data={finWhaleData} style={{ color: 'green', fillColor: 'green', fillOpacity: 0.2 }} />}
+                    {isMiami && minkeWhaleData && <GeoJSON data={minkeWhaleData} style={{ color: 'purple', fillColor: 'purple', fillOpacity: 0.2 }} />}
                     {/* Plot vessels as markers if vesselData is defined */}
                     {vesselData &&
                         vesselData.map((vesselaws, index) => {
