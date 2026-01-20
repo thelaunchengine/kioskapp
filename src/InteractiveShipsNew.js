@@ -1,4 +1,4 @@
-```javascript
+// InteractiveShipsNew.js
 // InteractiveShipsNew.js
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip, useMapEvents } from 'react-leaflet';
@@ -160,7 +160,7 @@ function InteractiveShipsNew() {
 
     if (geojsonData) {
         const bounds = bbox(geojsonData);
-        console.log(`Bounding Box: ${ bounds } `);
+        console.log(`Bounding Box: ${bounds} `);
     } else {
 
     }
@@ -177,9 +177,9 @@ function InteractiveShipsNew() {
         const displayHours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
 
         // Construct formatted date string
-        const formattedDate = `${ displayHours }:${ minutes } ${ period } `;
+        const formattedDate = `${displayHours}:${minutes} ${period} `;
 
-        return `${ year } -${ month } -${ day } ${ formattedDate } `;
+        return `${year} -${month} -${day} ${formattedDate} `;
     }
     function formatFullDate(dateString) {
         const date = new Date(dateString);
@@ -193,7 +193,7 @@ function InteractiveShipsNew() {
         // Convert the hour to 12-hour format
         hour = hour % 12 || 12;
 
-        const formattedDate = `${ month } ${ day }, ${ year } at ${ hour }:${ minute } ${ period } `;
+        const formattedDate = `${month} ${day}, ${year} at ${hour}:${minute} ${period} `;
 
         return formattedDate;
     }
@@ -270,7 +270,7 @@ function InteractiveShipsNew() {
             }
         }
 
-        console.log(`Marker at(${ markerPosition[0]}, ${ markerPosition[1]}) - Tooltip direction: ${ closestDirection } `);
+        console.log(`Marker at(${markerPosition[0]}, ${markerPosition[1]}) - Tooltip direction: ${closestDirection} `);
         return closestDirection;
     };
 
@@ -304,7 +304,7 @@ function InteractiveShipsNew() {
     const mapCenter = isMiami ? miamiMarkerPosition : [32.00, -80.66];
 
     return (
-        <div className={`mainWrapper ${ isVisible ? 'overlay' : '' } ${ isVisibleLayers ? 'overlay' : '' } ${ isVisibleStats ? 'overlay' : '' } ${ isVisibleHelp ? 'overlay' : '' } `} >
+        <div className={`mainWrapper ${isVisible ? 'overlay' : ''} ${isVisibleLayers ? 'overlay' : ''} ${isVisibleStats ? 'overlay' : ''} ${isVisibleHelp ? 'overlay' : ''} `} >
             <div className="radar-map">
                 <MapContainer
                     center={mapCenter}
@@ -350,7 +350,7 @@ function InteractiveShipsNew() {
                                         key={vesselaws.server_track_id}
                                         position={[latitude, longitude]}
                                         icon={new Icon({
-                                            iconUrl: require(`./ vessel_icon / ${ vesselaws.vessel_type === "cargo_ship" ? "cargo_ship" : "sailboat" }_${ getSpeedCategory(vesselaws.speed) }.svg`),
+                                            iconUrl: require(`./ vessel_icon / ${vesselaws.vessel_type === "cargo_ship" ? "cargo_ship" : "sailboat"}_${getSpeedCategory(vesselaws.speed)}.svg`),
                                             iconSize: [75], // Adjust the size as needed
                                             iconAnchor: [10, 10], // Adjust the anchor point as needed                                            
                                         })}
@@ -359,7 +359,7 @@ function InteractiveShipsNew() {
                                     >
                                         <Popup className="vesselpopupcls">
                                             <div className="mainwrappopup">
-                                                <img src={require(`./ vessel_icon / ${ vesselaws.vessel_type === "towing_ship" || vesselaws.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesselaws.vessel_type } _side.svg`)} alt={vesselaws.vessel_name} />
+                                                <img src={require(`./ vessel_icon / ${vesselaws.vessel_type === "towing_ship" || vesselaws.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesselaws.vessel_type} _side.svg`)} alt={vesselaws.vessel_name} />
                                                 <h3>{vesselaws.vessel_name}</h3>
                                                 <div className="vesselsdetailwithimg">
                                                     <div className="left">
@@ -386,7 +386,7 @@ function InteractiveShipsNew() {
                                                 {/* Add more vessel information here */}
                                             </div>
                                         </Popup>
-                                        <Tooltip direction={tooltipDirection} offset={tooltipOffset} opacity={1} permanent><div className="tooltip_vessel_title" style={{ transform: `rotate(${ rotationAngle }deg)`, whiteSpace: 'nowrap' }}><span className="vessel_title" style={{ backgroundColor: 'grey', padding: '0px 5px' }}>{vesselaws.vessel_name}{vesselaws.speed ? <span style={{ backgroundColor: getSpeedColor(vesselaws.speed), padding: '2px 4px', borderRadius: '3px', display: 'inline-block', marginLeft: '4px' }}>{vesselaws.speed} kt</span> : ''}</span><span className="vessel_detail_speed">{vesselaws.heading} &deg;</span></div></Tooltip>
+                                        <Tooltip direction={tooltipDirection} offset={tooltipOffset} opacity={1} permanent><div className="tooltip_vessel_title" style={{ transform: `rotate(${rotationAngle}deg)`, whiteSpace: 'nowrap' }}><span className="vessel_title" style={{ backgroundColor: 'grey', padding: '0px 5px' }}>{vesselaws.vessel_name}{vesselaws.speed ? <span style={{ backgroundColor: getSpeedColor(vesselaws.speed), padding: '2px 4px', borderRadius: '3px', display: 'inline-block', marginLeft: '4px' }}>{vesselaws.speed} kt</span> : ''}</span><span className="vessel_detail_speed">{vesselaws.heading} &deg;</span></div></Tooltip>
                                     </Marker>
                                 ) : null;
                             } else {
@@ -401,7 +401,7 @@ function InteractiveShipsNew() {
                             position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
                             icon={new Icon({
                                 //iconUrl: customMarkerIconWhale,
-                                iconUrl: require(`./ sightingIcons / ${ whaledata.icon }.png`),
+                                iconUrl: require(`./ sightingIcons / ${whaledata.icon}.png`),
                                 iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
                                 iconAnchor: whaledata.icon.includes('-R') ? [15, 15] : [10, 10],
                             })}
@@ -413,14 +413,14 @@ function InteractiveShipsNew() {
                         >
                             <Popup>
                                 <div className="whalemainwrappopup">
-                                    <img src={require(`./ images / whales / icon / ${ getImageFileName(whaledata.name) } -2.svg`)} alt={whaledata.name} />
+                                    <img src={require(`./ images / whales / icon / ${getImageFileName(whaledata.name)} -2.svg`)} alt={whaledata.name} />
                                     <h3>
                                         {whaledata.moderated === 1 ? 'CONFIRMED SIGHTING' : 'UNCONFIRMED SIGHTING'}
                                     </h3>
                                     <h5 className="whaledateformator">{formatDate(whaledata.created)}</h5>
                                     <div className="whalevesselsdetailwithimg">
                                         <div className="whaleleft">
-                                            <img src={require(`./ images / whales / ${ getImageFileName(whaledata.name) } -1.svg`)} alt={whaledata.name} />
+                                            <img src={require(`./ images / whales / ${getImageFileName(whaledata.name)} -1.svg`)} alt={whaledata.name} />
                                         </div>
                                         <div className="whaleright">
                                             <div className="detailformat">
@@ -463,7 +463,7 @@ function InteractiveShipsNew() {
                                 >
                                     <Popup className="vesselpopupcls">
                                         <div className="mainwrappopup">
-                                            <img src={require(`./ vessel_icon / ${ vesseld.vessel_type === "towing_ship" || vesseld.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesseld.vessel_type } _side.svg`)} alt={vesseld.vessel_name} />
+                                            <img src={require(`./ vessel_icon / ${vesseld.vessel_type === "towing_ship" || vesseld.vessel_type === "wing_in_ground_effect" ? "cargo_ship" : vesseld.vessel_type} _side.svg`)} alt={vesseld.vessel_name} />
                                             <h3>{vesseld.vessel_name}</h3>
                                             <div className="vesselsdetailwithimg">
                                                 <div className="left">
