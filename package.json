@@ -2,7 +2,7 @@
   "name": "tybee-science-center-exhibit",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "/kiosk",
   "dependencies": {
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.2",
