@@ -96,7 +96,7 @@ function Menu({
                 if (selectedOption === "lastyear") {
                     valdefault = "last_year";
                 }
-                axios.get('https://maplify.com/waseak/php/tybee.php?period=' + valdefault + '&region=tybee')
+                axios.get('https://maplify.com/waseak/php/tybee_2.php?period=' + valdefault + '&region=tybee')
                     .then((response) => {
                         setwhaleDetail(response.data.results);
                     }).catch((error) => {
@@ -122,7 +122,7 @@ function Menu({
                     valdefault = "last_year";
                 }
 
-                axios.get('https://maplify.com/waseak/php/tybee.php?period=' + valdefault + '&region=tybee')
+                axios.get('https://maplify.com/waseak/php/tybee_2.php?period=' + valdefault + '&region=tybee')
                     .then((response) => {
                         const filteredResults = response.data.results.filter(item => {
                             // Check if item name is included in selectedSubData or not
@@ -296,7 +296,7 @@ function Menu({
             }
             console.error('handleRadioChange:', passval);
 
-            axios.get('https://maplify.com/waseak/php/tybee.php?period=' + passval + '&region=tybee')
+            axios.get('https://maplify.com/waseak/php/tybee_2.php?period=' + passval + '&region=tybee')
                 .then((response) => {
                     setwhaleDetail(response.data.results);
                 })
@@ -355,15 +355,15 @@ function Menu({
             <div className="dynamicmenu">
                 <div className="menu">
                     <div className="mainmenu">
-                        <a id="mainmenuid" className="" onClick={toggleVisibility}>
+                        <a id="mainmenuid" href="#!" className="" onClick={toggleVisibility}>
                             <label>MENU</label>
                             <span className={`menuics ${isVisible ? 'minus' : 'plus'}`}></span>
                         </a>
-                        <a id="mainmenuid2" className="" onClick={toggleVisibilityLayers}>
+                        <a id="mainmenuid2" href="#!" className="" onClick={toggleVisibilityLayers}>
                             <label>LAYERS</label>
                             <span className="layers"></span>
                         </a>
-                        <a id="mainmenuid3" className="" onClick={toggleVisibilityStats}>
+                        <a id="mainmenuid3" href="#!" className="" onClick={toggleVisibilityStats}>
                             <label>STATS</label>
                             <span className="stats"></span>
                         </a>
@@ -371,7 +371,7 @@ function Menu({
                 </div>
             </div>
             <div className="infosection">
-                <a id="mainmenuid3" className="" onClick={toggleVisibilityHelp}>
+                <a id="mainmenuid3" href="#!" className="" onClick={toggleVisibilityHelp}>
                     <label>HELP</label>
                     <span className="stats"></span>
                 </a>
@@ -382,25 +382,25 @@ function Menu({
                     <div className="boxesmain">
                         <div className="box1 explorerNearByShips" ref={popupRefMenu}>
                             <div className="icon">
-                                <img src={shipsIcon} className="imgclsbig" />
+                                <img src={shipsIcon} alt="Ships" className="imgclsbig" />
                             </div>
                             <div className="text">
                                 <span>EXPLORE NEARBY SHIPS</span>
                             </div>
                             <div className="plus">
-                                <img src={plusIcon} className="imgcls" />
+                                <img src={plusIcon} alt="Plus" className="imgcls" />
                             </div>
                         </div>
 
                         <div className="box2 explorerWhaleSightings" ref={popupRefMenu}>
                             <div className="icon">
-                                <img src={whaleIconB} className="imgclsbig" />
+                                <img src={whaleIconB} alt="Whale" className="imgclsbig" />
                             </div>
                             <div className="text">
                                 <span>EXPLORE WHALE SIGHTINGS</span>
                             </div>
                             <div className="plus">
-                                <img src={plusIcon} className="imgcls" />
+                                <img src={plusIcon} alt="Plus" className="imgcls" />
                             </div>
                         </div>
                     </div>
@@ -409,7 +409,7 @@ function Menu({
                             <span>MORE RESOURCES</span>
                         </div>
                         <div className="plus">
-                            <img src={plusIcon} className="imgcls" />
+                            <img src={plusIcon} alt="Plus" className="imgcls" />
                         </div>
                     </div>
 
@@ -421,9 +421,9 @@ function Menu({
                 <div className="mianwrap">
                     <div className="boxesmain">
                         <div className="box1" ref={popupRef}>
-                            <div className="closedbtn"><a id="closedbtnid" onClick={toggleVisibilityLayers}>X</a></div>
+                            <div className="closedbtn"><a id="closedbtnid" href="#!" onClick={toggleVisibilityLayers}>X</a></div>
                             <div className="icon">
-                                <img src={shipsIcon} className="imgclsbig" />
+                                <img src={shipsIcon} alt="Ships" className="imgclsbig" />
                             </div>
 
                             <div className="text">
@@ -434,7 +434,7 @@ function Menu({
                                     <div className="radiogroupsmaster">
                                         <div className="checkboxmainwrap">
                                             <div className="radiogroupmain">
-                                                <a className="button resetBtn" onClick={handleResetReload}>Reset</a>
+                                                <a className="button resetBtn" href="#!" onClick={handleResetReload}>Reset</a>
                                                 <div className="textlabel">
                                                     <span>Display whales reported in the:</span>
                                                 </div>
@@ -563,7 +563,7 @@ function Menu({
             <div className={`menumainexplorestats ${isVisibleStats ? 'fadeIn' : 'fadeOut'}`} >
                 <div className="mianwrap">
                     <div className="boxesmain mainboxcls popupRefStats" ref={popupRefStats}>
-                        <div className="closedbtn"><a id="closedbtnid" onClick={toggleVisibilityStats}>X</a></div>
+                        <div className="closedbtn"><a id="closedbtnid" href="#!" onClick={toggleVisibilityStats}>X</a></div>
                         <div className="box1">
                             <div className="text">
                                 <div className="tooltipheading">
@@ -626,7 +626,7 @@ function Menu({
                 <div className="mianwrap">
                     <div className="boxesmain">
                         <div className="box1 rspop-wide" ref={popupRefResources}>
-                            <div className="closedbtn"><a id="closedbtnid" onClick={toggleVisibilityResources}>X</a></div>
+                            <div className="closedbtn"><a id="closedbtnid" href="#!" onClick={toggleVisibilityResources}>X</a></div>
                             <div className="text">
                                 <h2 className="rs-poptitle">Resources</h2>
                                 <div className="resourcespopupmaster">
@@ -634,7 +634,7 @@ function Menu({
                                         <div className="rs-item-list">
                                             <div className="rs-item">
                                                 <div className="rsi-left">
-                                                    <img src="" />
+                                                    <img src="" alt="" />
                                                 </div>
                                                 <div className="rsi-right">
                                                     <h3>Learn more about North Atlantic Right Whale</h3>
@@ -644,7 +644,7 @@ function Menu({
                                             </div>
                                             <div className="rs-item">
                                                 <div className="rsi-left">
-                                                    <img src="" />
+                                                    <img src="" alt="" />
                                                 </div>
                                                 <div className="rsi-right">
                                                     <h3>Go Slow, Whales Below: Vessel Strikes Continue To Threaten North Atlantic Right Whales</h3>
@@ -655,7 +655,7 @@ function Menu({
                                             </div>
                                             <div className="rs-item">
                                                 <div className="rsi-left">
-                                                    <img src="" />
+                                                    <img src="" alt="" />
                                                 </div>
                                                 <div className="rsi-right">
                                                     <h3>NOAA Fisheries North Atlantic Right Whale Active Seasonal Speed Zone Vessel Traffic Dashboard</h3>
@@ -709,7 +709,7 @@ function Menu({
                 <div className="mianwrap">
                     <div className="boxesmain">
                         <div className="box1 rs-help-wrap" ref={popupRefHelp}>
-                            <div className="closedbtn"><a id="closedbtnid" onClick={toggleVisibilityHelp}>X</a></div>
+                            <div className="closedbtn"><a id="closedbtnid" href="#!" onClick={toggleVisibilityHelp}>X</a></div>
                             <div className="text">
                                 <h2>Help</h2>
                             </div>
@@ -744,8 +744,8 @@ function Menu({
 
             <div className="footermenuicon" onClick={toggleVisibilityHelp}>
                 <div className="mainwarpforicon">
-                    <a className="marineics"><img src={marineFooterIcon} className="footerimgcls" /></a>
-                    <a className="whaleics"><img src={whaleFooterIcon} className="footerimgclswhale" /></a>
+                    <a className="marineics" href="#!"><img src={marineFooterIcon} alt="Marine" className="footerimgcls" /></a>
+                    <a className="whaleics" href="#!"><img src={whaleFooterIcon} alt="Whale" className="footerimgclswhale" /></a>
                 </div>
                 <div className="uptimeMonitoring">site is up</div>
             </div>

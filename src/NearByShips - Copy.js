@@ -187,7 +187,7 @@ function NearByShips() {
               position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
               icon={new Icon({
                 //iconUrl: customMarkerIconWhale,
-                iconUrl: require(`./Icons/${whaledata.icon}.imageset/${whaledata.icon}.png`),
+                iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
                 iconSize: [30, 30], // Adjust the size as needed
                 iconAnchor: [15, 15], // Adjust the anchor point as needed
               })}

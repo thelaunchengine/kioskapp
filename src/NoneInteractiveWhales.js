@@ -105,7 +105,7 @@ function NoneInteractiveWhales() {
           console.error('Error fetching radar data:', error);
         });
 
-      axios.get('https://maplify.com/waseak/php/tybee.php?period=90&region=tybee')
+      axios.get('https://maplify.com/waseak/php/tybee_2.php?period=90&region=tybee')
         .then((response) => {
           setStaticWhalesData(response.data.stats);
           setwhaleDetail(response.data.results);
@@ -309,7 +309,7 @@ function NoneInteractiveWhales() {
               position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
               icon={new Icon({
                 //iconUrl: customMarkerIconWhale,
-                iconUrl: require(`./Icons/${whaledata.icon}.imageset/${whaledata.icon}.png`),
+                iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
                 iconSize: [15, 15], // Adjust the size as needed
                 iconAnchor: [10, 10], // Adjust the anchor point as needed
               })}
@@ -337,7 +337,7 @@ function NoneInteractiveWhales() {
             whaleDetail.map((whaleld, index) => (
               whaleld.photo_url ? (
                 <li key={index} onClick={() => markerRefs.current[index].openPopup()}>
-                  <img src={whaleld.photo_url} alt="{whaleld.name}" />
+                  <img src={whaleld.photo_url} alt={whaleld.name} />
                   <div className="imageoverlay">
                     <div className="vesselstitleanddate">
                       <h3>{whaleld.name}</h3>
@@ -388,8 +388,8 @@ function NoneInteractiveWhales() {
 
       <div className="footermenuicon">
         <div className="mainwarpforicon">
-          <a className="marineics"><img src={marineFooterIcon} className="footerimgcls" /></a>
-          <a className="whaleics"><img src={whaleFooterIcon} className="footerimgclswhale" /></a>
+          <a className="marineics" href="#!"><img src={marineFooterIcon} alt="Marine" className="footerimgcls" /></a>
+          <a className="whaleics" href="#!"><img src={whaleFooterIcon} alt="Whale" className="footerimgclswhale" /></a>
         </div>
         <div className="uptimeMonitoring">site is up</div>
       </div>

@@ -101,7 +101,7 @@ function NoneInteractiveWhales() {
             console.error('Error fetching radar data:', error);
         });
         
-        axios.get('https://maplify.com/waseak/php/tybee.php?period=90&region=tybee')
+        axios.get('https://maplify.com/waseak/php/tybee_2.php?period=90&region=tybee')
             .then((response) => {
                 setwhaleDetail(response.data.results);   
             })
@@ -270,7 +270,7 @@ const renderWhaleDetails = () => {
                   position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
                   icon={new Icon({
                       //iconUrl: customMarkerIconWhale,
-                      iconUrl: require(`./Icons/${whaledata.icon}.imageset/${whaledata.icon}.png`),
+                      iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
                       iconSize: [30, 30], // Adjust the size as needed
                       iconAnchor: [15, 15], // Adjust the anchor point as needed
                     })}

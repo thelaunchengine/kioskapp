@@ -95,7 +95,7 @@ function InteractiveWhales() {
           .catch((error) => {
             console.error('Error fetching radar data:', error);
           });
-        axios.get('https://maplify.com/waseak/php/tybee.php?period=90&region=tybee')
+        axios.get('https://maplify.com/waseak/php/tybee_2.php?period=90&region=tybee')
           .then((response) => {
             setStaticWhalesData(response.data.stats);
             setwhaleDetail(response.data.results);
@@ -293,7 +293,7 @@ function InteractiveWhales() {
               position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
               icon={new Icon({
                 //iconUrl: customMarkerIconWhale,
-                iconUrl: require(`./Icons/${whaledata.icon}.imageset/${whaledata.icon}.png`),
+                iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
                 iconSize: [15, 15], // Adjust the size as needed
                 iconAnchor: [10, 10], // Adjust the anchor point as needed
               })}
@@ -358,7 +358,7 @@ function InteractiveWhales() {
             whaleDetail.map((whaleld, index) => (
               whaleld.photo_url ? (
                 <li key={index} onClick={() => markerRefs.current[index].openPopup()}>
-                  <img src={whaleld.photo_url} alt="{whaleld.name}" />
+                  <img src={whaleld.photo_url} alt={whaleld.name} />
                   <div className="imageoverlay">
                     <div className="vesselstitleanddate">
                       <h3>{whaleld.name}</h3>

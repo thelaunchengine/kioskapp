@@ -101,7 +101,7 @@ function InteractiveShipsNew() {
                         console.error('Error fetching radar data:', error);
                     });
 
-                axios.get('https://maplify.com/waseak/php/tybee.php?period=90&region=tybee') // 'https://maplify.com/waseak/php/search-all-sightings.php?BBOX=-124,48,-122,50&limit=20&start=2023-01-01&moderated=1'
+                axios.get('https://maplify.com/waseak/php/tybee_2.php?period=90&region=tybee') // 'https://maplify.com/waseak/php/search-all-sightings.php?BBOX=-124,48,-122,50&limit=20&start=2023-01-01&moderated=1'
                     .then((response) => {
                         setStaticWhalesData(response.data.stats);
                         setwhaleDetail(response.data.results);
@@ -376,7 +376,7 @@ function InteractiveShipsNew() {
                             position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
                             icon={new Icon({
                                 //iconUrl: customMarkerIconWhale,
-                                iconUrl: require(`./Icons/${whaledata.icon}.imageset/${whaledata.icon}.png`),
+                                iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
                                 iconSize: [15, 15], // Adjust the size as needed
                                 iconAnchor: [10, 10], // Adjust the anchor point as needed
                             })}
