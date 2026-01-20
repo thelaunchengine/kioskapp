@@ -14,6 +14,7 @@ import { Icon } from 'leaflet';
 import he from 'he';
 import Menu from './Menu';
 import vesselsIconforPopup from './images/getS3Photo.jpeg';
+import customMarkerIconVessel from './vessel_icon.png';
 import whaleAlertQrmobileImg from './images/wle-img-2.png';
 import { getSpeedColor } from './Utils';
 
