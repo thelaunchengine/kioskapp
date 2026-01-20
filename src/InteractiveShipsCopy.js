@@ -308,9 +308,10 @@ function InteractiveShipsCopy() {
                             icon={new Icon({
                                 //iconUrl: customMarkerIconWhale,
                                 iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
-                                iconSize: [15, 15], // Adjust the size as needed
-                                iconAnchor: [10, 10], // Adjust the anchor point as needed
+                                iconSize: whaledata.icon.includes('-R') ? [7.5, 7.5] : [22.5, 22.5],
+                                iconAnchor: whaledata.icon.includes('-R') ? [5, 5] : [15, 15],
                             })}
+                            opacity={whaledata.icon.includes('-R') ? 0.8 : 1.0}
                             eventHandlers={{
                                 click: () => handleMarkerClick(whaledata.id)
                             }}
