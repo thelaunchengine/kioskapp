@@ -493,7 +493,7 @@ function InteractiveShipsNew() {
                     <Marker
                         position={markerPosition}
                         icon={new Icon({
-                            iconUrl: require(`./ images / yellowpin.png`),
+                            iconUrl: require('./images/yellowpin.png'),
                             iconSize: [25],
                             iconAnchor: [12, 12]
                         })}
