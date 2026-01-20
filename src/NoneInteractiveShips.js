@@ -214,6 +214,20 @@ function NoneInteractiveShips() {
   const searchParams = new URLSearchParams(window.location.search);
   const isMiami = searchParams.get('region') === 'miami' || window.location.href.includes('miami');
 
+  const [rightWhaleData, setRightWhaleData] = useState(null);
+  const [humpbackWhaleData, setHumpbackWhaleData] = useState(null);
+  const [finWhaleData, setFinWhaleData] = useState(null);
+  const [minkeWhaleData, setMinkeWhaleData] = useState(null);
+
+  useEffect(() => {
+    if (isMiami) {
+      fetch(rightWhaleGeo).then(r => r.json()).then(setRightWhaleData);
+      fetch(humpbackWhaleGeo).then(r => r.json()).then(setHumpbackWhaleData);
+      fetch(finWhaleGeo).then(r => r.json()).then(setFinWhaleData);
+      fetch(minkeWhaleGeo).then(r => r.json()).then(setMinkeWhaleData);
+    }
+  }, [isMiami]);
+
   const markerPosition = userLocation || (isMiami ? miamiMarkerPosition : tybeeMarkerPosition);
   const mapCenter = isMiami ? miamiMarkerPosition : [32.00, -80.66];
 
@@ -222,7 +236,6 @@ function NoneInteractiveShips() {
     <div className="mainWrapper noneInteractiveShips">
       <div className="radar-map">
         <MapContainer
-          center={mapCenter}
           center={isMiami ? [26.15, -80.0] : [32.0, -80.0]}
           zoom={isMiami ? 8 : 9}
           maxZoom={12}
