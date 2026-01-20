@@ -14,6 +14,10 @@ import { getSpeedColor } from './Utils';
 
 import Slideshow from './Slideshow';
 import 'leaflet-rotatedmarker';
+import rightWhaleGeo from './data/corridors/North_Atlantic_Right_Whale_optimized.geojson';
+import humpbackWhaleGeo from './data/corridors/Humpback_Whale_optimized.geojson';
+import finWhaleGeo from './data/corridors/Fin_Whale_optimized.geojson';
+import minkeWhaleGeo from './data/corridors/Minke_Whale_optimized.geojson';
 function NoneInteractiveWhales() {
   const [, setRefresh] = useState();
   const [staticWhalesData, setStaticWhalesData] = useState([]);
@@ -280,6 +284,15 @@ function NoneInteractiveWhales() {
 
           {geojsonData && (
             <GeoJSON data={geojsonData} style={{ fillColor: 'yellow', stroke: false }} />
+          )}
+
+          {isMiami && (
+            <>
+              <GeoJSON data={rightWhaleGeo} style={{ fillColor: 'red', color: 'red', weight: 1, fillOpacity: 0.2 }} />
+              <GeoJSON data={humpbackWhaleGeo} style={{ fillColor: 'blue', color: 'blue', weight: 1, fillOpacity: 0.2 }} />
+              <GeoJSON data={finWhaleGeo} style={{ fillColor: 'green', color: 'green', weight: 1, fillOpacity: 0.2 }} />
+              <GeoJSON data={minkeWhaleGeo} style={{ fillColor: 'purple', color: 'purple', weight: 1, fillOpacity: 0.2 }} />
+            </>
           )}
 
           {/* Plot vessels as markers if vesselData is defined */}

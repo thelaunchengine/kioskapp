@@ -2,6 +2,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip, useMapEvents, useMap } from 'react-leaflet';
 import axios from 'axios';
+// import rightWhaleGeo from './data/right_whale_geo.json';
+import rightWhaleGeo from './data/corridors/North_Atlantic_Right_Whale_optimized.geojson';
+import humpbackWhaleGeo from './data/corridors/Humpback_Whale_optimized.geojson';
+import finWhaleGeo from './data/corridors/Fin_Whale_optimized.geojson';
+import minkeWhaleGeo from './data/corridors/Minke_Whale_optimized.geojson';
 import bbox from '@turf/bbox';
 import './css/InteractiveShipsTest.css';
 import { Icon } from 'leaflet';
@@ -251,6 +256,14 @@ function InteractiveShipsTest() {
 
                     {geojsonData && (
                         <GeoJSON data={geojsonData} style={{ fillColor: 'yellow', stroke: false }} />
+                    )}
+                    {isMiami && (
+                        <>
+                            <GeoJSON data={rightWhaleGeo} style={{ fillColor: 'red', color: 'red', weight: 1, fillOpacity: 0.2 }} />
+                            <GeoJSON data={humpbackWhaleGeo} style={{ fillColor: 'blue', color: 'blue', weight: 1, fillOpacity: 0.2 }} />
+                            <GeoJSON data={finWhaleGeo} style={{ fillColor: 'green', color: 'green', weight: 1, fillOpacity: 0.2 }} />
+                            <GeoJSON data={minkeWhaleGeo} style={{ fillColor: 'purple', color: 'purple', weight: 1, fillOpacity: 0.2 }} />
+                        </>
                     )}
                     {/* Plot vessels as markers if vesselData is defined */}
                     {vesselData &&
