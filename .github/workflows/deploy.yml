@@ -43,6 +43,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /opt/bitnami/apache/htdocs/map/kiosk/
+            rm -rf whales interactive-whales interactive-ships ships-test interactive-ships-new interactive-ships-copy
             if [ -f "build/.htaccess" ]; then
               cp build/.htaccess .
             fi
