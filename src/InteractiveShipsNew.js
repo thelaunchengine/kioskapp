@@ -414,7 +414,7 @@ function InteractiveShipsNew() {
                         >
                             <Popup>
                                 <div className="whalemainwrappopup">
-                                    <img src={require(`./ images / whales / icon / ${getImageFileName(whaledata.name)} -2.svg`)} alt={whaledata.name} />
+                                    <img src={require(`./images/whales/icon/${getImageFileName(whaledata.name)}-2.svg`)} alt={whaledata.name} />
                                     <h3>
                                         {whaledata.moderated === 1 ? 'CONFIRMED SIGHTING' : 'UNCONFIRMED SIGHTING'}
                                     </h3>
