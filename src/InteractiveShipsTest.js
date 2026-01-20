@@ -314,8 +314,8 @@ function InteractiveShipsTest() {
                             icon={new Icon({
                                 //iconUrl: customMarkerIconWhale,
                                 iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
-                                iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [7.5, 7.5],
-                                iconAnchor: whaledata.icon.includes('-R') ? [15, 15] : [5, 5],
+                                iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
+                                iconAnchor: whaledata.icon.includes('-R') ? [15, 15] : [10, 10],
                             })}
                             opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
                             eventHandlers={{
