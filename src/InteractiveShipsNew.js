@@ -402,7 +402,7 @@ function InteractiveShipsNew() {
                             position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
                             icon={new Icon({
                                 //iconUrl: customMarkerIconWhale,
-                                iconUrl: require(`./ sightingIcons / ${whaledata.icon}.png`),
+                                iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
                                 iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
                                 iconAnchor: whaledata.icon.includes('-R') ? [15, 15] : [10, 10],
                             })}
