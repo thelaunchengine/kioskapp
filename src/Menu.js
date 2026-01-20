@@ -33,8 +33,6 @@ function Menu({
     totalVessels,
     staticVesselData,
     formatTypeClass,
-    staticVesselData,
-    formatTypeClass,
     staticWhalesData,
     isMiami,
     showRightWhaleCorridor,

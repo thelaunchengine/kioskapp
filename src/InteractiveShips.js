@@ -241,6 +241,11 @@ function InteractiveShips() {
     const [finWhaleData, setFinWhaleData] = useState(null);
     const [minkeWhaleData, setMinkeWhaleData] = useState(null);
 
+    const [showRightWhaleCorridor, setShowRightWhaleCorridor] = useState(false);
+    const [showHumpbackWhaleCorridor, setShowHumpbackWhaleCorridor] = useState(false);
+    const [showFinWhaleCorridor, setShowFinWhaleCorridor] = useState(false);
+    const [showMinkeWhaleCorridor, setShowMinkeWhaleCorridor] = useState(false);
+
     useEffect(() => {
         if (isMiami) {
             fetch(rightWhaleGeo).then(r => r.json()).then(setRightWhaleData);
