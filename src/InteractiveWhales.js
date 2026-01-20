@@ -41,6 +41,11 @@ function InteractiveWhales() {
 
   const selectedOtherData = ['MigratoryCalvingGrounds'];
 
+  const [showRightWhaleCorridor, setShowRightWhaleCorridor] = useState(false);
+  const [showHumpbackWhaleCorridor, setShowHumpbackWhaleCorridor] = useState(false);
+  const [showFinWhaleCorridor, setShowFinWhaleCorridor] = useState(false);
+  const [showMinkeWhaleCorridor, setShowMinkeWhaleCorridor] = useState(false);
+
 
   useEffect(() => {
 
@@ -248,8 +253,8 @@ function InteractiveWhales() {
           style={{ height: '100%', width: '100%' }}
         >
           <TileLayer
-            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-            attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            url="https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW50aGluc3QxIiwiYSI6ImNpbXJ1aGRtYTAxOGl2aG00dTF4ZTBlcmcifQ.k95ENmlDX1roCRKSFlgCNw"
+            attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           />
           {isMiami && rightWhaleData && <GeoJSON data={rightWhaleData} style={{ color: 'red', fillColor: 'red', fillOpacity: 0.2 }} />}
           {isMiami && humpbackWhaleData && <GeoJSON data={humpbackWhaleData} style={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }} />}
@@ -448,6 +453,15 @@ function InteractiveWhales() {
         staticVesselData={staticVesselData}
         formatTypeClass={formatTypeClass}
         staticWhalesData={staticWhalesData}
+        isMiami={isMiami}
+        showRightWhaleCorridor={showRightWhaleCorridor}
+        setShowRightWhaleCorridor={setShowRightWhaleCorridor}
+        showHumpbackWhaleCorridor={showHumpbackWhaleCorridor}
+        setShowHumpbackWhaleCorridor={setShowHumpbackWhaleCorridor}
+        showFinWhaleCorridor={showFinWhaleCorridor}
+        setShowFinWhaleCorridor={setShowFinWhaleCorridor}
+        showMinkeWhaleCorridor={showMinkeWhaleCorridor}
+        setShowMinkeWhaleCorridor={setShowMinkeWhaleCorridor}
       />
     </div>
   );
