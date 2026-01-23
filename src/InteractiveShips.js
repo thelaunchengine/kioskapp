@@ -1,14 +1,15 @@
 // InteractiveShips.js
 import React, { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip, useMapEvents, ScaleControl } from 'react-leaflet';
 import axios from 'axios';
 import bbox from '@turf/bbox';
 import './css/InteractiveShips.css';
-import { Icon } from 'leaflet';
+import { Icon, DivIcon } from 'leaflet';
 import he from 'he';
 import Menu from './Menu';
 import vesselsIconforPopup from './images/getS3Photo.jpeg';
 import whaleAlertQrmobileImg from './images/wle-img-2.png';
+import cameraIcon from './images/camera_icon.png';
 import { getSpeedColor } from './Utils';
 import rightWhaleGeo from './data/corridors/North_Atlantic_Right_Whale_optimized.geojson';
 import humpbackWhaleGeo from './data/corridors/Humpback_Whale_optimized.geojson';
@@ -263,11 +264,12 @@ function InteractiveShips() {
             <div className="radar-map">
                 <MapContainer
                     center={isMiami ? [26.15, -80.0] : [32.0, -80.0]}
-                    zoom={isMiami ? 8 : 9}
+                    zoom={isMiami ? 8 : 9.2}
                     maxZoom={12}
                     minZoom={isMiami ? 7 : 7}
                     style={{ height: '100%', width: '100%' }}
                 >
+                    <ScaleControl position="bottomright" />
                     <TileLayer
                         url="https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW50aGluc3QxIiwiYSI6ImNpbXJ1aGRtYTAxOGl2aG00dTF4ZTBlcmcifQ.k95ENmlDX1roCRKSFlgCNw"
                         attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -276,6 +278,7 @@ function InteractiveShips() {
                     {isMiami && humpbackWhaleData && showHumpbackWhaleCorridor && <GeoJSON data={humpbackWhaleData} style={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }} />}
                     {isMiami && finWhaleData && showFinWhaleCorridor && <GeoJSON data={finWhaleData} style={{ color: 'green', fillColor: 'green', fillOpacity: 0.2 }} />}
                     {isMiami && minkeWhaleData && showMinkeWhaleCorridor && <GeoJSON data={minkeWhaleData} style={{ color: 'purple', fillColor: 'purple', fillOpacity: 0.2 }} />}
+                    {geojsonData && <GeoJSON data={geojsonData} style={{ fillColor: 'yellow', stroke: false }} />}
                     {/* Plot vessels as markers if vesselData is defined */}
                     {vesselData &&
                         vesselData.map((vesselaws, index) => {
@@ -341,11 +344,16 @@ function InteractiveShips() {
                         <Marker
                             key={whaledata.id}
                             position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
-                            icon={new Icon({
-                                //iconUrl: customMarkerIconWhale,
-                                iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
+                            icon={new DivIcon({
+                                className: 'custom-div-icon',
+                                html: `
+                                  <div style="position: relative; width: ${whaledata.icon.includes('-R') ? '22.5px' : '15px'}; height: ${whaledata.icon.includes('-R') ? '22.5px' : '15px'};">
+                                    ${whaledata.photo_url ? `<img src="${cameraIcon}" style="position: absolute; top: -8px; right: -8px; width: 16px; height: 16px; filter: brightness(0) invert(1); z-index: 1;" />` : ''}
+                                    <img src="${require(`./sightingIcons/${whaledata.icon}.png`)}" style="width: 100%; height: 100%; display: block; position: relative; z-index: 2;" />
+                                  </div>
+                                `,
                                 iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
-                                iconAnchor: whaledata.icon.includes('-R') ? [15, 15] : [10, 10],
+                                iconAnchor: whaledata.icon.includes('-R') ? [11.25, 11.25] : [7.5, 7.5],
                             })}
                             opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
                             eventHandlers={{
@@ -362,7 +370,11 @@ function InteractiveShips() {
                                     <h5 className="whaledateformator">{formatDate(whaledata.created)}</h5>
                                     <div className="whalevesselsdetailwithimg">
                                         <div className="whaleleft">
-                                            <img src={require(`./images/whales/${getImageFileName(whaledata.name)}-1.svg`)} alt={whaledata.name} />
+                                            {whaledata.photo_url ? (
+                                                <img src={whaledata.photo_url} alt={whaledata.name} />
+                                            ) : (
+                                                <img src={require(`./images/whales/${getImageFileName(whaledata.name)}-1.svg`)} alt={whaledata.name} />
+                                            )}
                                         </div>
                                         <div className="whaleright">
                                             <div className="detailformat">
@@ -438,6 +450,7 @@ function InteractiveShips() {
                             iconSize: [25],
                             iconAnchor: [12, 12]
                         })}
+                        zIndexOffset={1000}
                         interactive={false}
                     >
                         <Tooltip direction="left" offset={[0, 0]} opacity={1} permanent>

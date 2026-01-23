@@ -1,6 +1,6 @@
 // InteractiveShipsCopy.js
 import React, { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip, useMapEvents, ScaleControl } from 'react-leaflet';
 import rightWhaleGeo from './data/corridors/North_Atlantic_Right_Whale_optimized.geojson';
 import humpbackWhaleGeo from './data/corridors/Humpback_Whale_optimized.geojson';
 import finWhaleGeo from './data/corridors/Fin_Whale_optimized.geojson';
@@ -263,11 +263,12 @@ function InteractiveShipsCopy() {
             <div className="radar-map">
                 <MapContainer
                     center={isMiami ? [26.15, -80.0] : [32.0, -80.0]}
-                    zoom={isMiami ? 8 : 9}
+                    zoom={isMiami ? 8 : 9.2}
                     maxZoom={12}
                     minZoom={isMiami ? 7 : 7}
                     style={{ height: '100%', width: '100%' }}
                 >
+                    <ScaleControl position="bottomright" />
                     <TileLayer
                         url="https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW50aGluc3QxIiwiYSI6ImNpbXJ1aGRtYTAxOGl2aG00dTF4ZTBlcmcifQ.k95ENmlDX1roCRKSFlgCNw"
                         attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -276,6 +277,7 @@ function InteractiveShipsCopy() {
                     {isMiami && humpbackWhaleData && <GeoJSON data={humpbackWhaleData} style={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.2 }} />}
                     {isMiami && finWhaleData && <GeoJSON data={finWhaleData} style={{ color: 'green', fillColor: 'green', fillOpacity: 0.2 }} />}
                     {isMiami && minkeWhaleData && <GeoJSON data={minkeWhaleData} style={{ color: 'purple', fillColor: 'purple', fillOpacity: 0.2 }} />}
+                    {geojsonData && <GeoJSON data={geojsonData} style={{ fillColor: 'yellow', stroke: false }} />}
                     {/* Plot vessels as markers if vesselData is defined */}
                     {vesselData &&
                         vesselData.map((vesselaws, index) => {
@@ -438,6 +440,7 @@ function InteractiveShipsCopy() {
                             iconSize: [25],
                             iconAnchor: [12, 12]
                         })}
+                        zIndexOffset={1000}
                         interactive={false}
                     >
                         <Tooltip direction="left" offset={[0, 0]} opacity={1} permanent>
