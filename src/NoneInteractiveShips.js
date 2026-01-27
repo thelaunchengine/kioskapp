@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip, ScaleControl 
 import axios from 'axios';
 import bbox from '@turf/bbox';
 import './css/NoneInteractiveShips.css';
-import { Icon } from 'leaflet';
+import { Icon, DivIcon } from 'leaflet';
 import customMarkerIcon from './vessel_icon/cargo_ship_fast.svg';
 import customMarkerIconWhale from './images/whale.png';
 import marineFooterIcon from './images/m2-icon.jpg';
@@ -14,9 +14,14 @@ import rightWhaleGeo from './data/corridors/North_Atlantic_Right_Whale_optimized
 import humpbackWhaleGeo from './data/corridors/Humpback_Whale_optimized.geojson';
 import finWhaleGeo from './data/corridors/Fin_Whale_optimized.geojson';
 import minkeWhaleGeo from './data/corridors/Minke_Whale_optimized.geojson';
+import cameraIcon from './images/camera_icon.png';
 
 import 'leaflet-rotatedmarker';
 import { getSpeedColor } from './Utils';
+
+import MarkerClusterGroup from './MarkerClusterGroup';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 function NoneInteractiveShips() {
 
@@ -285,32 +290,39 @@ function NoneInteractiveShips() {
               }
             })}
 
-          {whaleDetail && whaleDetail.map((whaledata) => (
-            <Marker
-              key={whaledata.id}
-              position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
-              icon={new Icon({
-                //iconUrl: customMarkerIconWhale,
-                iconUrl: require(`./sightingIcons/${whaledata.icon}.png`),
-                iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
-                iconAnchor: whaledata.icon.includes('-R') ? [15, 15] : [10, 10],
-              })}
-              opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
-              interactive={false}
-            >
-              <Popup>
-                <div>
-                  <h3>ID: {whaledata.id}</h3>
-                  <p>Name: {whaledata.name}</p>
-                  <p>Latitude: {whaledata.latitude}</p>
-                  <p>Longitude: {whaledata.longitude}</p>
-                  <p>Timestamp: {formatDate(whaledata.created)}</p>
-                  {/* Add more vessel information here */}
-                </div>
-              </Popup>
-              {/* <Tooltip direction="" offset={[10, 10]} opacity={1} permanent>{whaledata.name}</Tooltip> */}
-            </Marker>
-          ))}
+          <MarkerClusterGroup chunkedLoading>
+            {whaleDetail && whaleDetail.map((whaledata) => (
+              <Marker
+                key={whaledata.id}
+                position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
+                icon={new DivIcon({
+                  className: 'custom-div-icon',
+                  html: `
+                  <div style="position: relative; width: ${whaledata.icon.includes('-R') ? '22.5px' : '15px'}; height: ${whaledata.icon.includes('-R') ? '22.5px' : '15px'};">
+                    ${whaledata.photo_url ? `<img src="${cameraIcon}" style="position: absolute; top: -8px; right: -8px; width: 16px; height: 16px; filter: brightness(0) invert(1); z-index: 1;" />` : ''}
+                    <img src="${require(`./sightingIcons/${whaledata.icon}.png`)}" style="width: 100%; height: 100%; display: block; position: relative; z-index: 2;" />
+                  </div>
+                `,
+                  iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
+                  iconAnchor: whaledata.icon.includes('-R') ? [11.25, 11.25] : [7.5, 7.5],
+                })}
+                opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
+                interactive={false}
+              >
+                <Popup>
+                  <div>
+                    <h3>ID: {whaledata.id}</h3>
+                    <p>Name: {whaledata.name}</p>
+                    <p>Latitude: {whaledata.latitude}</p>
+                    <p>Longitude: {whaledata.longitude}</p>
+                    <p>Timestamp: {formatDate(whaledata.created)}</p>
+                    {/* Add more vessel information here */}
+                  </div>
+                </Popup>
+                {/* <Tooltip direction="" offset={[10, 10]} opacity={1} permanent>{whaledata.name}</Tooltip> */}
+              </Marker>
+            ))}
+          </MarkerClusterGroup>
 
           <Marker
             position={markerPosition}

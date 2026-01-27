@@ -1,21 +1,23 @@
-.whalemainwrappopup h3{
+.whalemainwrappopup h3 {
     text-align: center;
     width: 100%;
     text-transform: uppercase;
     margin-bottom: 5px;
 }
-.whalemainwrappopup > h5{
+
+.whalemainwrappopup>h5 {
     text-align: center;
     width: 100%;
     margin-top: 0px;
     margin-bottom: 20px;
 }
-.whalemainwrappopup > img {
+
+.whalemainwrappopup>img {
     text-align: center;
     max-width: 100px;
     margin-left: 43%;
     align-items: center;
-    
+
 }
 
 .whalemainwrappopup .whalevesselsdetailwithimg {
@@ -23,27 +25,57 @@
 }
 
 .whalemainwrappopup {
-     display: block;
+    display: block;
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
 }
+
 .whalevesselsdetailwithimg .whaleleft img {
     margin-right: 0;
     width: 100%;
 }
+
 .detailformat p {
     margin: 2px;
 }
-.detailformat{
+
+.detailformat {
     margin: 0 0 15px;
 }
+
 .whaleleft {
     align-items: center;
     display: flex;
     flex: 0 0 100%;
     max-width: 50%;
 }
+
 .whaleright {
     padding-left: 25px;
+}
+
+.leaflet-control-scale.leaflet-control {
+    padding: 3px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    background-color: #FFF;
+}
+
+.leaflet-control-scale-line {
+    border: 2px solid #000;
+    border-top: none;
+    line-height: 1.1;
+    padding: 2px 5px 1px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.8);
+    text-shadow: 1px 1px #fff;
+    color: #000;
+}
+
+.leaflet-control-scale-line:not(:first-child) {
+    border-top: 2px solid #000;
+    margin-top: 1px !important;
+    border-bottom: none;
 }

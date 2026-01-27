@@ -1,9 +1,12 @@
 // InteractiveWhales.js
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON, Tooltip, ScaleControl } from 'react-leaflet';
+import MarkerClusterGroup from './MarkerClusterGroup';
 import axios from 'axios';
 import bbox from '@turf/bbox';
 import './css/InteractiveWhales.css';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import { Icon, DivIcon } from 'leaflet';
 import he from 'he';
 import Menu from './Menu';
@@ -242,6 +245,21 @@ function InteractiveWhales() {
   const markerPosition = userLocation || (isMiami ? miamiMarkerPosition : tybeeMarkerPosition);
   const mapCenter = isMiami ? miamiMarkerPosition : [32.20, -78.66];
 
+  const clusterRef = useRef(null);
+
+  const onSidebarClick = (index) => {
+    const marker = markerRefs.current[index];
+    if (marker) {
+      if (clusterRef.current) {
+        clusterRef.current.zoomToShowLayer(marker, () => {
+          marker.openPopup();
+        });
+      } else {
+        marker.openPopup();
+      }
+    }
+  };
+
   return (
 
     <div className={`mainWrapper interactiveWhales ${isVisible ? 'overlay' : ''} ${isVisibleLayers ? 'overlay' : ''} ${isVisibleStats ? 'overlay' : ''} ${isVisibleHelp ? 'overlay' : ''}`} >
@@ -324,64 +342,66 @@ function InteractiveWhales() {
               }
             })}
 
-          {whaleDetail && whaleDetail.map((whaledata, index) => (
-            <Marker
-              ref={(el) => (markerRefs.current[index] = el)}
-              key={whaledata.id}
-              position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
-              icon={new DivIcon({
-                className: 'custom-div-icon',
-                html: `
+          <MarkerClusterGroup chunkedLoading ref={clusterRef}>
+            {whaleDetail && whaleDetail.map((whaledata, index) => (
+              <Marker
+                ref={(el) => (markerRefs.current[index] = el)}
+                key={whaledata.id}
+                position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
+                icon={new DivIcon({
+                  className: 'custom-div-icon',
+                  html: `
                   <div style="position: relative; width: ${whaledata.icon.includes('-R') ? '22.5px' : '15px'}; height: ${whaledata.icon.includes('-R') ? '22.5px' : '15px'};">
                     ${whaledata.photo_url ? `<img src="${cameraIcon}" style="position: absolute; top: -8px; right: -8px; width: 16px; height: 16px; filter: brightness(0) invert(1); z-index: 1;" />` : ''}
                     <img src="${require(`./sightingIcons/${whaledata.icon}.png`)}" style="width: 100%; height: 100%; display: block; position: relative; z-index: 2;" />
                   </div>
                 `,
-                iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
-                iconAnchor: whaledata.icon.includes('-R') ? [11.25, 11.25] : [7.5, 7.5],
-              })}
-              opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
-              eventHandlers={{
-                click: () => handleMarkerClick(whaledata.id)
-              }}
-              className={selectedMarker === whaledata.id ? 'active-marker' : ''}
-            >
-              <Popup>
-                <div className="whalemainwrappopup">
-                  <img src={require(`./images/whales/icon/${getImageFileName(whaledata.name)}-2.svg`)} alt={whaledata.name} />
-                  <h3>{whaledata.moderated === 1 ? 'CONFIRMED SIGHTING' : 'UNCONFIRMED SIGHTING'}</h3>
-                  <h5 className="whaledateformator">{formatDate(whaledata.created)}</h5>
-                  <div className="whalevesselsdetailwithimg">
-                    <div className="whaleleft">
-                      {whaledata.photo_url ? (
-                        <img src={whaledata.photo_url} alt={whaledata.name} />
-                      ) : (
-                        <img src={require(`./images/whales/${getImageFileName(whaledata.name)}-1.svg`)} alt={whaledata.name} />
-                      )}
-                    </div>
-                    <div className="whaleright">
-                      <div className="detailformat">
-                        <p>SPECIES:</p>
-                        <p>{whaledata.name}</p>
+                  iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
+                  iconAnchor: whaledata.icon.includes('-R') ? [11.25, 11.25] : [7.5, 7.5],
+                })}
+                opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
+                eventHandlers={{
+                  click: () => handleMarkerClick(whaledata.id)
+                }}
+                className={selectedMarker === whaledata.id ? 'active-marker' : ''}
+              >
+                <Popup>
+                  <div className="whalemainwrappopup">
+                    <img src={require(`./images/whales/icon/${getImageFileName(whaledata.name)}-2.svg`)} alt={whaledata.name} />
+                    <h3>{whaledata.moderated === 1 ? 'CONFIRMED SIGHTING' : 'UNCONFIRMED SIGHTING'}</h3>
+                    <h5 className="whaledateformator">{formatDate(whaledata.created)}</h5>
+                    <div className="whalevesselsdetailwithimg">
+                      <div className="whaleleft">
+                        {whaledata.photo_url ? (
+                          <img src={whaledata.photo_url} alt={whaledata.name} />
+                        ) : (
+                          <img src={require(`./images/whales/${getImageFileName(whaledata.name)}-1.svg`)} alt={whaledata.name} />
+                        )}
                       </div>
-                      <div className="detailformat">
-                        <p>NUMBER SEEN: {whaledata.number_sighted}</p>
-                      </div>
-                      {whaledata.comments && (
+                      <div className="whaleright">
                         <div className="detailformat">
-                          <p>NOTES:</p>
-                          {whaledata.comments.split('<br>').map((part, partIndex) => (
-                            <p key={partIndex}>{he.decode(part)}</p>
-                          ))}
+                          <p>SPECIES:</p>
+                          <p>{whaledata.name}</p>
                         </div>
-                      )}
+                        <div className="detailformat">
+                          <p>NUMBER SEEN: {whaledata.number_sighted}</p>
+                        </div>
+                        {whaledata.comments && (
+                          <div className="detailformat">
+                            <p>NOTES:</p>
+                            {whaledata.comments.split('<br>').map((part, partIndex) => (
+                              <p key={partIndex}>{he.decode(part)}</p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Popup>
-              {/* <Tooltip direction="" offset={[10, 10]} opacity={1} permanent>{whaledata.name}</Tooltip> */}
-            </Marker>
-          ))}
+                </Popup>
+                {/* <Tooltip direction="" offset={[10, 10]} opacity={1} permanent>{whaledata.name}</Tooltip> */}
+              </Marker>
+            ))}
+          </MarkerClusterGroup>
 
           <Marker
             position={markerPosition}
@@ -417,7 +437,7 @@ function InteractiveWhales() {
           {whaleDetail &&
             whaleDetail.map((whaleld, index) => (
               whaleld.photo_url ? (
-                <li key={index} onClick={() => markerRefs.current[index].openPopup()}>
+                <li key={index} onClick={() => onSidebarClick(index)}>
                   <img src={whaleld.photo_url} alt={whaleld.name} />
                   <div className="imageoverlay">
                     <div className="vesselstitleanddate">
@@ -427,7 +447,7 @@ function InteractiveWhales() {
                   </div>
                 </li>
               ) : (
-                <li key={index} onClick={() => markerRefs.current[index].openPopup()}>
+                <li key={index} onClick={() => onSidebarClick(index)}>
                   <img src={require(`./images/whales/${getImageFileName(whaleld.name)}-1.svg`)} alt={whaleld.name} />
                   <div className="imageoverlay">
                     <div className="vesselstitleanddate">

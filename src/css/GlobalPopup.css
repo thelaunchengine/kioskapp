@@ -1,0 +1,29 @@
+.global-popup-wrapper {
+    /* Transitions if needed */
+    transition: top 0.1s, left 0.1s;
+    /* smooth movement or instant? Leaflet is instant usually */
+}
+
+.global-popup-content {
+    background: #000;
+    /* Match existing style */
+    border: 1px solid #fff;
+    border-radius: 20px;
+    color: #FFF;
+    padding: 20px;
+    min-width: 450px;
+    /* Match existing */
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.global-popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
