@@ -267,8 +267,8 @@ function InteractiveWhales() {
         <MapContainer
           center={isMiami ? [26.15, -80.0] : [32.0, -80.0]}
           zoom={isMiami ? 8 : 7}
-          maxZoom={12}
-          minZoom={isMiami ? 7 : 7}
+          maxZoom={18}
+          minZoom={1}
           style={{ height: '100%', width: '100%' }}
         >
           <ScaleControl position="bottomright" />
@@ -342,66 +342,126 @@ function InteractiveWhales() {
               }
             })}
 
-          <MarkerClusterGroup chunkedLoading ref={clusterRef}>
-            {whaleDetail && whaleDetail.map((whaledata, index) => (
-              <Marker
-                ref={(el) => (markerRefs.current[index] = el)}
-                key={whaledata.id}
-                position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
-                icon={new DivIcon({
-                  className: 'custom-div-icon',
+
+          {Object.entries(
+            (whaleDetail || []).reduce((groups, whale) => {
+              const icon = whale.icon || 'default';
+              if (!groups[icon]) groups[icon] = [];
+              groups[icon].push(whale);
+              return groups;
+            }, {})
+          ).map(([iconType, whales]) => (
+            <MarkerClusterGroup
+              key={iconType}
+              chunkedLoading
+              iconCreateFunction={(cluster) => {
+                const count = cluster.getChildCount();
+                // Base size 25px, max 50px, grow by 2px per item
+                const size = Math.min(25 + (count * 2), 50);
+
+                let iconUrl;
+                try {
+                  iconUrl = require(`./sightingIcons/${iconType}.png`);
+                } catch (e) {
+                  // Fallback to a known existing icon
+                  iconUrl = require(`./sightingIcons/unknown-UC-L-R-NP.png`);
+                }
+
+                // Determine colors: Black for Unconfirmed/Gray, White for others
+                const isUnconfirmed = iconType.includes('UC-') || iconType.toLowerCase().includes('gray') || iconType.toLowerCase().includes('grey');
+                const colorStyle = isUnconfirmed ? 'black' : 'white';
+                const textShadowStyle = isUnconfirmed ? 'none' : '1px 1px 2px black';
+
+                return new DivIcon({
                   html: `
-                  <div style="position: relative; width: ${whaledata.icon.includes('-R') ? '22.5px' : '15px'}; height: ${whaledata.icon.includes('-R') ? '22.5px' : '15px'};">
-                    ${whaledata.photo_url ? `<img src="${cameraIcon}" style="position: absolute; top: -8px; right: -8px; width: 16px; height: 16px; filter: brightness(0) invert(1); z-index: 1;" />` : ''}
-                    <img src="${require(`./sightingIcons/${whaledata.icon}.png`)}" style="width: 100%; height: 100%; display: block; position: relative; z-index: 2;" />
-                  </div>
-                `,
-                  iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
-                  iconAnchor: whaledata.icon.includes('-R') ? [11.25, 11.25] : [7.5, 7.5],
-                })}
-                opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
-                eventHandlers={{
-                  click: () => handleMarkerClick(whaledata.id)
-                }}
-                className={selectedMarker === whaledata.id ? 'active-marker' : ''}
-              >
-                <Popup>
-                  <div className="whalemainwrappopup">
-                    <img src={require(`./images/whales/icon/${getImageFileName(whaledata.name)}-2.svg`)} alt={whaledata.name} />
-                    <h3>{whaledata.moderated === 1 ? 'CONFIRMED SIGHTING' : 'UNCONFIRMED SIGHTING'}</h3>
-                    <h5 className="whaledateformator">{formatDate(whaledata.created)}</h5>
-                    <div className="whalevesselsdetailwithimg">
-                      <div className="whaleleft">
-                        {whaledata.photo_url ? (
-                          <img src={whaledata.photo_url} alt={whaledata.name} />
-                        ) : (
-                          <img src={require(`./images/whales/${getImageFileName(whaledata.name)}-1.svg`)} alt={whaledata.name} />
-                        )}
+                    <div style="
+                      width: ${size}px; 
+                      height: ${size}px; 
+                      background-image: url(${iconUrl});
+                      background-size: contain;
+                      background-repeat: no-repeat;
+                      background-position: center;
+                      border: 2px solid ${colorStyle};
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+                    ">
+                      <span style="
+                        color: ${colorStyle}; 
+                        font-weight: bold; 
+                        text-shadow: ${textShadowStyle};
+                        font-size: ${Math.max(12, size / 2.5)}px;
+                      ">${count}</span>
+                    </div>
+                  `,
+                  className: 'custom-cluster-icon',
+                  iconSize: [size, size],
+                  iconAnchor: [size / 2, size / 2]
+                });
+              }}
+            >
+              {whales.map((whaledata, index) => (
+                <Marker
+                  ref={(el) => (markerRefs.current[index] = el)}
+                  key={whaledata.id}
+                  position={[parseFloat(whaledata.latitude), parseFloat(whaledata.longitude)]}
+                  icon={new DivIcon({
+                    className: 'custom-div-icon',
+                    html: `
+                      <div style="position: relative; width: ${whaledata.icon.includes('-R') ? '22.5px' : '15px'}; height: ${whaledata.icon.includes('-R') ? '22.5px' : '15px'};">
+                        ${whaledata.photo_url ? `<img src="${cameraIcon}" style="position: absolute; top: -8px; right: -8px; width: 16px; height: 16px; filter: brightness(0) invert(1); z-index: 1;" />` : ''}
+                        <img src="${require(`./sightingIcons/${whaledata.icon}.png`)}" style="width: 100%; height: 100%; display: block; position: relative; z-index: 2;" />
                       </div>
-                      <div className="whaleright">
-                        <div className="detailformat">
-                          <p>SPECIES:</p>
-                          <p>{whaledata.name}</p>
+                    `,
+                    iconSize: whaledata.icon.includes('-R') ? [22.5, 22.5] : [15, 15],
+                    iconAnchor: whaledata.icon.includes('-R') ? [11.25, 11.25] : [7.5, 7.5],
+                  })}
+                  opacity={whaledata.icon.includes('-R') ? 1.0 : 0.8}
+                  eventHandlers={{
+                    click: () => handleMarkerClick(whaledata.id)
+                  }}
+                  className={selectedMarker === whaledata.id ? 'active-marker' : ''}
+                >
+                  <Popup>
+                    <div className="whalemainwrappopup">
+                      <img src={require(`./images/whales/icon/${getImageFileName(whaledata.name)}-2.svg`)} alt={whaledata.name} />
+                      <h3>{whaledata.moderated === 1 ? 'CONFIRMED SIGHTING' : 'UNCONFIRMED SIGHTING'}</h3>
+                      <h5 className="whaledateformator">{formatDate(whaledata.created)}</h5>
+                      <div className="whalevesselsdetailwithimg">
+                        <div className="whaleleft">
+                          {whaledata.photo_url ? (
+                            <img src={whaledata.photo_url} alt={whaledata.name} />
+                          ) : (
+                            <img src={require(`./images/whales/${getImageFileName(whaledata.name)}-1.svg`)} alt={whaledata.name} />
+                          )}
                         </div>
-                        <div className="detailformat">
-                          <p>NUMBER SEEN: {whaledata.number_sighted}</p>
-                        </div>
-                        {whaledata.comments && (
+                        <div className="whaleright">
                           <div className="detailformat">
-                            <p>NOTES:</p>
-                            {whaledata.comments.split('<br>').map((part, partIndex) => (
-                              <p key={partIndex}>{he.decode(part)}</p>
-                            ))}
+                            <p>SPECIES:</p>
+                            <p>{whaledata.name}</p>
                           </div>
-                        )}
+                          <div className="detailformat">
+                            <p>NUMBER SEEN: {whaledata.number_sighted}</p>
+                          </div>
+                          {whaledata.comments && (
+                            <div className="detailformat">
+                              <p>NOTES:</p>
+                              {whaledata.comments.split('<br>').map((part, partIndex) => (
+                                <p key={partIndex}>{he.decode(part)}</p>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Popup>
-                {/* <Tooltip direction="" offset={[10, 10]} opacity={1} permanent>{whaledata.name}</Tooltip> */}
-              </Marker>
-            ))}
-          </MarkerClusterGroup>
+                  </Popup>
+                  {/* <Tooltip direction="" offset={[10, 10]} opacity={1} permanent>{whaledata.name}</Tooltip> */}
+                </Marker>
+              ))}
+            </MarkerClusterGroup>
+          ))}
 
           <Marker
             position={markerPosition}
